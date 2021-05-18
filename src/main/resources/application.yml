@@ -1,0 +1,55 @@
+server:
+  port: 8131
+  tomcat:
+    max-threads: 800
+    accept-count: 1000
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  security:
+    user:
+      name: admin
+      password: admin
+logging: #日志配置
+  config: classpath:logback-soufun.xml
+pagehelper:   #Mybatis分页插件
+  dialect: com.github.pagehelper.PageHelper
+  autoDialect: true
+  closeConn: false
+  reasonable: false #分页参数合理化 默认为true
+secret:
+  key: Jwqjy^x,?>0  #token验证密钥
+  issuer: zhyy  #JWT的签发者，是否使用是可选的
+  subject: all #JWT所面向的用户，是否使用是可选的
+  ttlMillis: 300000 #失效时间  时效5分钟   单位：毫秒
+  bttlMillis: 14400000 #后台失效时间  时效4小时   单位：毫秒
+swagger:
+  production: true  # 屏蔽所有Swagger的相关资源 true打开 false关闭
+
+
+upload:
+  location:
+    windows: d:/soufun/file/
+    linux: /home/soufun/file/
+  singleFileSize:
+    jpg: 2048000
+    jfif: 2048000
+  multipleFilesSize:
+    jpg: 2048000
+    jfif: 2048000
+  defaultSingleFileSize: 2048000
+  defaultMultipleFileSize: 20480000
+  fileTypes:
+    jpg: 图片
+    jfif: 图片

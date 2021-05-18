@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_HOME" value="soufun-log" />
+	<!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,,,, -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	
+	<!-- 按照每天生成日志文件 -->
+	<appender name="soufun" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">  
+            <!-- 按天回滚 daily -->  
+            <!-- 时间和大小组合策略 -->
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>  
+            <!-- 日志最大的历史 180天 -->  
+            <maxHistory>180</maxHistory>
+            <!--日志文件最大的大小 -->
+            <MaxFileSize>10MB</MaxFileSize>  
+        </rollingPolicy>  
+        <!--日志文件最大的大小 -->
+<!--         <triggeringPolicy -->
+<!--                 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+<!--             <MaxFileSize>10MB</MaxFileSize> -->
+<!--         </triggeringPolicy> -->
+        <encoder>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+			</pattern>
+			<!-- 此处设置字符集 -->
+			<charset>UTF-8</charset>
+		</encoder>
+    </appender>
+	<!--logstash配置-->
+	<!--<appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+	<!--	<param name="Encoding" value="UTF-8"/>-->
+	<!--	&lt;!&ndash; logstash服务器ip &ndash;&gt;-->
+	<!--	<remoteHost>192.168.0.129</remoteHost>-->
+	<!--	&lt;!&ndash; logstash tcp 端口&ndash;&gt;-->
+	<!--	<port>4560</port>-->
+	<!--	&lt;!&ndash; encoder is required 索引名&ndash;&gt;-->
+	<!--	<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >-->
+	<!--		<customFields>{"appname":"basic-service"}</customFields>-->
+	<!--	</encoder>-->
+	<!--</appender>-->
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<!--<appender-ref ref="logstash"/>-->
+	</root>
+	<logger name="com.amt" level="INFO">
+		<appender-ref ref="soufun" />
+	</logger>
+</configuration>
