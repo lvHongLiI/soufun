@@ -100,7 +100,7 @@ var table = $('#data-table').DataTable({
             } else if (data === 1) {
                 html = '<td class="td-status"><span class="label label-success radius">已发布</span></td>';
             } else if (data === 2) {
-                html = '<td class="td-status"><span class="label label-warning radius">已出租</span></td>';
+                html = '<td class="td-status"><span class="label label-warning radius">已下架/出租</span></td>';
             } else {
                 html = '<td class="td-status"><span class="label label-danger radius">未知状态</span></td>';
             }

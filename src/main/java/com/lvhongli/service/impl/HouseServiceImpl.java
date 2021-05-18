@@ -49,6 +49,8 @@ public class HouseServiceImpl implements HouseService {
     private SubwayRepository subwayRepository;
     @Autowired
     private SubwayStationRepository subwayStationRepository;
+    @Autowired
+    private MessageRepository messageRepository;
     @Override
     @Transactional
     public ResultMsg add(HouseForm houseForm) {
@@ -153,6 +155,15 @@ public class HouseServiceImpl implements HouseService {
         Optional<House> optional = houseRepository.findById(id);
         if (!optional.isPresent()){
             return ResultMsg.fail();
+        }
+        if (status==3){
+            Message message = new Message();
+            message.setCreateTime(new Date());
+            message.setStatus(false);
+            message.setType("DELETE");
+            message.setUpdateTime(new Date());
+            message.setData(id.toString());
+            messageRepository.save(message);
         }
         optional.get().setStatus(status);
         return ResultMsg.success();
@@ -266,5 +277,4 @@ public class HouseServiceImpl implements HouseService {
         houseRepository.save(house);
         return ResultMsg.success();
     }
-
 }
