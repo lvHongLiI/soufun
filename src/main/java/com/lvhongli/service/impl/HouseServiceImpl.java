@@ -1,9 +1,11 @@
 package com.lvhongli.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lvhongli.configure.ResultMsg;
 import com.lvhongli.dao.*;
 import com.lvhongli.model.*;
 
+import com.lvhongli.pojo.HouseData;
 import com.lvhongli.pojo.HouseForm;
 import com.lvhongli.pojo.HouseParam;
 import com.lvhongli.pojo.PhotoForm;
@@ -163,6 +165,20 @@ public class HouseServiceImpl implements HouseService {
             message.setType("DELETE");
             message.setUpdateTime(new Date());
             message.setData(id.toString());
+            messageRepository.save(message);
+        }
+        if (status==1){
+            Message message = new Message();
+            message.setCreateTime(new Date());
+            message.setStatus(false);
+            message.setType("CREATE");
+            message.setUpdateTime(new Date());
+            HouseData data = new HouseData();
+            data.setHouse(optional.get());
+            data.setDetail(houseDetailRepository.findByHouseId(id));
+            data.setPictures(housePictureRepository.findAllByHouseId(id));
+            data.setTags(houseTagRepository.findAllByHouseId(id));
+            message.setData(JSONObject.toJSONString(data));
             messageRepository.save(message);
         }
         optional.get().setStatus(status);

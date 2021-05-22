@@ -77,3 +77,9 @@ spring:
       #listner负责ack，每调用一次，就立即commit
       ack-mode: manual_immediate
       missing-topics-fatal: false
+elasticsearch:
+  ip: 127.0.0.1
+  port: 9300
+  cluster:
+    name: elasticsearch
+  pool: 10
