@@ -29,7 +29,8 @@ public class ClientUserController {
             @ApiResponse(code = 200, message = "客户端管理首页", response = String.class),
     })
     public String center(){
-        System.out.println("进来了");
         return "index";
     }
+
+
 }

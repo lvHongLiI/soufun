@@ -20,7 +20,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = MessageJob.delete_topic,groupId = "1")
     public void deleteEsData(ConsumerRecord consumerRecord){
-
+        esRepository.deleteById(Long.valueOf(consumerRecord.value().toString()));
     }
 
 
