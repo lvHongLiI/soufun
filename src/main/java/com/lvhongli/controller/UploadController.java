@@ -70,12 +70,11 @@ public class UploadController {
         //1、设置response 响应头
         response.reset(); //设置页面不缓存,清空buffer
         response.setCharacterEncoding("UTF-8"); //字符编码
-        response.setContentType("image/jpeg"); //二进制传输数据
+        response.setContentType(optional.get().getType()); //二进制传输数据
         //设置响应头
 
         try (BufferedInputStream  input =new BufferedInputStream(new FileInputStream(optional.get().getPath()));
              BufferedOutputStream out = new BufferedOutputStream( response.getOutputStream())){
-            //response.setHeader("Content-Disposition", "attachment;fileName="+ URLEncoder.encode(optional.get().getName(), "UTF-8"));
             byte[] buff =new byte[1024];
             int index=0;
             //4、执行 写出操作
