@@ -59,9 +59,25 @@ INSERT INTO `house` (`id`, `title`, `price`, `area`, `room`, `floor`, `total_flo
 	(30, '1', 1, 1, 1, 1, 1, NULL, 2019, 0, '2021-05-13 20:02:24', '2021-05-13 20:02:24', 'bj', 'dcq', '40287781796593940179659430270000', 2, 11, 0, '1', 2, 0, '1'),
 	(31, '2', 2, 2, 2, 2, 2, NULL, 2019, 0, '2021-05-16 17:17:29', '2021-05-16 17:17:29', 'bj', 'xcq', '4028778179746da3017974774c460000', 2, 10, 2, '2', 2, 0, '2'),
 	(32, '2', 2, 2, 2, 2, 2, NULL, 2019, 0, '2021-05-16 17:19:01', '2021-05-16 17:19:01', 'bj', 'xcq', '4028778179746da3017974774c460000', 2, 10, 2, '2', 2, 0, '2'),
-	(33, '2', 2, 3, 2, 2, 2, NULL, 2019, 0, '2021-05-16 17:19:02', '2021-05-17 20:55:29', 'bj', 'xcq', '4028778179746da3017974774c460000', 2, 10, 2, '2', 2, 0, '2'),
-	(34, '2', 2, 2, 2, 2, 2, NULL, 2019, 0, '2021-05-16 17:19:06', '2021-05-16 17:19:06', 'bj', 'xcq', '90', 2, 10, 2, '2', 2, 0, '2');
+	(33, '2', 2, 3, 2, 2, 2, NULL, 2019, 1, '2021-05-16 17:19:02', '2021-05-17 20:55:29', 'bj', 'xcq', '4028778179746da3017974774c460000', 2, 10, 2, '2', 2, 0, '2'),
+	(34, '2', 2, 2, 2, 2, 2, NULL, 2019, 3, '2021-05-16 17:19:06', '2021-05-16 17:19:06', 'bj', 'xcq', '90', 2, 10, 2, '2', 2, 0, '2');
 /*!40000 ALTER TABLE `house` ENABLE KEYS */;
+
+-- 导出  表 soufun.house_area 结构
+CREATE TABLE IF NOT EXISTS `house_area` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `min` int(11) unsigned NOT NULL COMMENT '最小值',
+  `max` int(11) unsigned NOT NULL COMMENT '最大值',
+  `sort` int(11) NOT NULL COMMENT '排序值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='房源面积表';
+
+-- 正在导出表  soufun.house_area 的数据：~1 rows (大约)
+/*!40000 ALTER TABLE `house_area` DISABLE KEYS */;
+INSERT INTO `house_area` (`id`, `name`, `min`, `max`, `sort`) VALUES
+	(1, '0~90', 0, 90, 1);
+/*!40000 ALTER TABLE `house_area` ENABLE KEYS */;
 
 -- 导出  表 soufun.house_detail 结构
 CREATE TABLE IF NOT EXISTS `house_detail` (
@@ -193,12 +209,33 @@ CREATE TABLE IF NOT EXISTS `message` (
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT '类型 create 创建 delete删除 ',
   `data` text NOT NULL COMMENT '数据',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 0待发送 1已发送',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='消息表';
 
--- 正在导出表  soufun.message 的数据：~0 rows (大约)
+-- 正在导出表  soufun.message 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` (`id`, `type`, `data`, `status`, `create_time`, `update_time`) VALUES
+	(1, 'DELETE', '34', 1, '2021-05-22 09:15:33', '2021-05-22 09:15:33'),
+	(2, 'CREATE', '{"detail":{"description":"hhhhhh","detailAddress":"2","houseId":33,"id":39,"layoutDesc":"2","rentWay":0,"roundService":"2","subwayLineId":4,"subwayStationId":51,"traffic":"2"},"house":{"adminId":2,"area":3,"bathroom":0,"buildYear":2019,"cityEnName":"bj","cover":"4028778179746da3017974774c460000","createTime":1621156742000,"direction":2,"distanceToSubway":10,"district":"2","floor":2,"id":33,"lastUpdateTime":1621256129000,"parlour":2,"price":2,"regionEnName":"xcq","room":2,"status":0,"street":"2","title":"2","totalFloor":2},"pictures":[{"height":100,"houseId":33,"id":89,"path":"http://localhost:8131/upload/4028778179746da3017974774c460000","width":120}],"tags":[{"houseId":33,"id":14,"name":"独立卫生间"},{"houseId":33,"id":10,"name":"独立阳台"},{"houseId":33,"id":15,"name":"精装修"},{"houseId":33,"id":11,"name":"集体供暖"}]}', 1, '2021-05-22 12:21:55', '2021-05-22 12:21:55');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
+
+-- 导出  表 soufun.rental 结构
+CREATE TABLE IF NOT EXISTS `rental` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `min` int(11) DEFAULT NULL COMMENT '最小值',
+  `max` int(11) DEFAULT NULL COMMENT '最大值',
+  `sort` int(11) NOT NULL COMMENT '排序值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='租金范围表';
+
+-- 正在导出表  soufun.rental 的数据：~1 rows (大约)
+/*!40000 ALTER TABLE `rental` DISABLE KEYS */;
+INSERT INTO `rental` (`id`, `name`, `min`, `max`, `sort`) VALUES
+	(1, '0~100', 0, 100, 1);
+/*!40000 ALTER TABLE `rental` ENABLE KEYS */;
 
 -- 导出  表 soufun.role 结构
 CREATE TABLE IF NOT EXISTS `role` (
@@ -222,6 +259,26 @@ INSERT INTO `role` (`id`, `user_id`, `name`) VALUES
 	(7, 7, 'USER'),
 	(8, 8, 'USER');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
+
+-- 导出  表 soufun.room_config 结构
+CREATE TABLE IF NOT EXISTS `room_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `type` varchar(20) NOT NULL,
+  `value` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='房间户型和朝向配置表';
+
+-- 正在导出表  soufun.room_config 的数据：~5 rows (大约)
+/*!40000 ALTER TABLE `room_config` DISABLE KEYS */;
+INSERT INTO `room_config` (`id`, `name`, `type`, `value`, `sort`) VALUES
+	(1, '不限', 'housetype', 0, 0),
+	(2, '一室', 'housetype', 1, 1),
+	(3, '二室', 'housetype', 1, 2),
+	(4, '不限', 'orientations', 0, 0),
+	(5, '朝东', 'orientations', 1, 1);
+/*!40000 ALTER TABLE `room_config` ENABLE KEYS */;
 
 -- 导出  表 soufun.subway 结构
 CREATE TABLE IF NOT EXISTS `subway` (
