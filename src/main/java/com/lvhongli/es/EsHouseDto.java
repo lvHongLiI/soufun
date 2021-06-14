@@ -1,5 +1,6 @@
 package com.lvhongli.es;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -50,7 +51,7 @@ public class EsHouseDto {
 
     @ApiModelProperty(value = "房屋面积 米", example = "12")
     @Field(type = FieldType.Integer)
-    private Integer area;
+    private Integer roomArea;
 
     @ApiModelProperty(value = "房屋所在楼层", example = "12")
     @Field(type = FieldType.Integer)
@@ -85,7 +86,8 @@ public class EsHouseDto {
     private Integer price;
 
     @ApiModelProperty(value = "更新时间", example = "2020-02-02")
-    @Field(type = FieldType.Date,format = DateFormat.basic_date)
+    @Field(type = FieldType.Date,format = DateFormat.custom,pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date lastUpdateTime;
 
     @ApiModelProperty(value = "浏览该房源人数", example = "11")
@@ -115,4 +117,19 @@ public class EsHouseDto {
     @ApiModelProperty(value = "租赁方式", example = "")
     @Field(type = FieldType.Integer)
     private Integer rentWay;
+
+
+    @ApiModelProperty(value = "房屋图片路径", example = "")
+    @Field(type = FieldType.keyword)
+    private List<String> pictures;
+
+    @ApiModelProperty(value = "房屋朝向", example = "")
+    @Field(type = FieldType.Integer)
+    private Integer roomDirection;
+
+    @ApiModelProperty(value = "看房人数", example = "")
+    @Field(type = FieldType.Integer)
+    private int watchPerson;
+
+
 }

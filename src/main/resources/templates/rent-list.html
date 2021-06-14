@@ -223,7 +223,7 @@
         <div id="sem_card"></div>
         <div class="con-box">
             <div class="list-head clear">
-                <h2>共有<span th:text="${total}">18364</span>套<span th:text="${currentCity.cnName}"></span>在租房源</h2>
+                <h2>共有<span th:text="${total}"></span>套<span th:text="${currentCity.cnName}"></span>在租房源</h2>
                 <div class="view-type" id="viewType">
                     <div class="modeshows modeshow">
                     <span class="l-show view-mod" data-type="real" id="lshow"><i></i>
@@ -260,7 +260,7 @@
                                         <span class="zone">
                                             <span th:text="${house.room} + '室' + ${house.parlour} + '厅&nbsp;&nbsp;'"></span>
                                         </span>
-                                        <span class="meters" th:text="${house.area} + '平米&nbsp;&nbsp;'"></span>
+                                        <span class="meters" th:text="${house.roomArea} + '平米&nbsp;&nbsp;'"></span>
                                         <span>朝向</span>
                                     </div>
                                     <div class="other">
@@ -274,12 +274,12 @@
                                     <div class="chanquan">
                                         <div class="left agency">
                                             <div class="view-label left">
-                                                <span th:if="${house.houseDetail.subwayLineName != null}">
+                                                <span th:if="${house.subwayLineName != null}">
                                                     <span class="fang-subway"></span>
                                                     <span class="fang-subway-ex">
                                                         <span>距离地铁
-                                                            <span th:text="${house.houseDetail.subwayLineName}"></span>
-                                                            <span th:text="${house.houseDetail.subwayStationName}"></span>站
+                                                            <span th:text="${house.subwayLineName}"></span>
+                                                            <span th:text="${house.subwayStationName}"></span>站
                                                             <span th:text="${house.distanceToSubway}"></span>米</span>
                                                     </span>
                                                 </span>
@@ -305,7 +305,7 @@
                                 </div>
                                 <div class="col-2">
                                     <div class="square">
-                                        <div><span class="num" th:text="${house.watchTimes}">0</span>人</div>
+                                        <div><span class="num" th:text="${house.watchPerson}"></span>人</div>
                                         <div class="col-look">看过此房</div>
                                     </div>
                                 </div>
@@ -386,8 +386,8 @@
     }
 
     $(function () {
-        data.priceBlock = [[${currentPriceBlock.key}]];
-        data.areaBlock = [[${currentAreaBlock.key}]];
+        data.priceBlock = [[${searchBody.priceBlock}]];
+        data.areaBlock = [[${searchBody.areaBlock}]];
         data.room = [[${searchBody.room}]];
         data.direction = [[${searchBody.direction}]];
         data.regionEnName = [[${searchBody.regionEnName}]];
@@ -396,8 +396,8 @@
         data.orderDirection = [[${searchBody.orderDirection}]];
 
         $('.region-select a[data-bind="' + [[${searchBody.regionEnName}]] + '"]').addClass('on');
-        $('.price-select a[data-bind="' + [[${currentPriceBlock.key}]] + '"]').addClass('on');
-        $('.area-select a[data-bind="' + [[${currentAreaBlock.key}]] + '"]').addClass('on');
+        $('.price-select a[data-bind="' + [[${searchBody.priceBlock}]] + '"]').addClass('on');
+        $('.area-select a[data-bind="' + [[${searchBody.areaBlock}]] + '"]').addClass('on');
         $('.room-select a[data-bind="' + [[${searchBody.room}]] + '"]').addClass('on');
         $('.direction-select a[data-bind="' + [[${searchBody.direction}]] + '"]').addClass('on');
         $('.rent-way-select a[data-bind="' + [[${searchBody.rentWay}]] + '"]').addClass('on');

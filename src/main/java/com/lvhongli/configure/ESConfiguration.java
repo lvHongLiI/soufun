@@ -1,10 +1,13 @@
 package com.lvhongli.configure;
 
+import com.lvhongli.es.EsHouseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
+//import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +19,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.util.CollectionUtils;
 
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -74,8 +78,8 @@ public class ESConfiguration  {
             hostName.stream().forEach(h -> {
                 try {
                     transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(h), port));
-
-                } catch (UnknownHostException e) {
+//transportClient.addTransportAddress(new TransportAddress(new InetSocketAddress(h,port)));
+                } catch (Exception e) {
                     log.error("Error addTransportAddress,with host:{}.", h);
                 }
             });
@@ -86,6 +90,9 @@ public class ESConfiguration  {
     @Bean
     public ElasticsearchTemplate elasticsearchTemplate() {
         Client client = buildClient();
-        return new ElasticsearchTemplate(client);
+        ElasticsearchTemplate template = new ElasticsearchTemplate(client);
+        template.createIndex(EsHouseDto.class);
+        template.putMapping(EsHouseDto.class);
+        return template;
     }
 }

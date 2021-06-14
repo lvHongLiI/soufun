@@ -2,6 +2,7 @@ package com.lvhongli.configure;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 
@@ -26,5 +27,5 @@ public class Page implements Serializable {
 	// 每页的数量
 	@ApiModelProperty(value = "每页的数量",example = "10")
 	private Integer limit;
-	
+
 }

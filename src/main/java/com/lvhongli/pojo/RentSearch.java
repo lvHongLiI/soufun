@@ -2,6 +2,7 @@ package com.lvhongli.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.domain.Sort;
 
 @Data
 public class RentSearch {
@@ -22,19 +23,19 @@ public class RentSearch {
     private String areaBlock;
 
     @ApiModelProperty(value = "房间数", example = "1")
-    private int room;
+    private Integer room;
 
     @ApiModelProperty(value = "房屋朝向", example = "1")
-    private int direction;
+    private Integer direction;
 
     @ApiModelProperty(value = "整租 还是合租", example = "1")
-    private int rentWay;
+    private Integer rentWay;
 
     @ApiModelProperty(value = "排序字段", example = "lastUpdateTime")
     private String orderBy = "lastUpdateTime";
 
     @ApiModelProperty(value = "升序还是降序", example = "desc")
-    private String orderDirection = "desc";
+    private Sort.Direction orderDirection = Sort.Direction.DESC;
 
     @ApiModelProperty(value = "起始位置", example = "1")
     private int start = 0;
