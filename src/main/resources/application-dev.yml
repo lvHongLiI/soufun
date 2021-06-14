@@ -8,7 +8,7 @@ spring:
 #    druid:
 #      writeDB:
     name: writeDB
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/soufun?useUnicode=true&characterEncoding=utf8
     username: root
     password: root
@@ -38,6 +38,19 @@ spring:
     useGlobalDataSourceStat: true
   resources: #静态目录配置
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  #jta相关参数配置
+#  jta:
+#    enabled: false
+#    log-dir: classpath:tx-logs
+#    transaction-manager-id: txManager
+alipay:
+  serverUrl: https://openapi.alipay.com/gateway.do
+  appId: 2021001196610001
+  privateKey:
+  publicKey:
+  signType: RSA2
+  charset: UTF-8
+  format: json
 
   kafka:
     bootstrap-servers: 192.168.247.129:9092
