@@ -1,5 +1,7 @@
 package com.lvhongli.model;
 
+import lombok.Data;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "house_subscribe")
+@Data
 public class HouseSubscribe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,83 +52,4 @@ public class HouseSubscribe {
     @Column(name = "`desc`")
     private String desc;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(Long houseId) {
-        this.houseId = houseId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-    }
-
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 }

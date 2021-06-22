@@ -43,14 +43,6 @@ spring:
 #    enabled: false
 #    log-dir: classpath:tx-logs
 #    transaction-manager-id: txManager
-alipay:
-  serverUrl: https://openapi.alipay.com/gateway.do
-  appId: 2021001196610001
-  privateKey:
-  publicKey:
-  signType: RSA2
-  charset: UTF-8
-  format: json
 
   kafka:
     bootstrap-servers: 192.168.247.129:9092
@@ -95,3 +87,20 @@ elasticsearch:
   cluster:
     name: elasticsearch
   pool: 10
+
+upload:
+  prefix: localhost:8131/upload/
+  location:
+    windows: d:/soufun/file/
+    linux: /home/soufun/file/
+  singleFileSize:
+    jpg: 2048000
+    jfif: 2048000
+  multipleFilesSize:
+    jpg: 2048000
+    jfif: 2048000
+  defaultSingleFileSize: 2048000
+  defaultMultipleFileSize: 20480000
+  fileTypes:
+    jpg: 图片
+    jfif: 图片

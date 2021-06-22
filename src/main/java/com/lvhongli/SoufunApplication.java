@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class SoufunApplication {
 
     public static void main(String[] args) {
+       // System.setProperty("es.set.netty.runtime.available.processors","false");
         SpringApplication.run(SoufunApplication.class, args);
         log.info("搜房网项目启动了");
     }

@@ -238,14 +238,14 @@
                     <tr th:each="house, houseStat: ${houses}">
                         <li>
                             <div class="pic-panel">
-                                <a target="_blank" th:href="'/rent/house/show/' + ${house.id}">
+                                <a target="_blank" th:href="'/client/house/selectById/' + ${house.id}">
                                     <img th:src="${house.cover}" th:alt="${house.title}"/>
                                 </a>
                             </div>
                             <div class="info-panel">
                                 <div>
                                     <h2>
-                                        <a target="_blank" th:href="'/rent/house/show/' + ${house.id}"
+                                        <a target="_blank" th:href="'/client/house/selectById/' + ${house.id}"
                                            th:title="${house.title}" th:text="${house.title}">
 
                                         </a>
@@ -352,9 +352,11 @@
             data.keywords = keywords;
         }
 
-        var target = '/rent/house?cityEnName=' + [[${searchBody.cityEnName}]] + '&';
+        var target = '/client/house/list?cityEnName=' + [[${searchBody.cityEnName}]] + '&';
         $.each(data, function (key, value) {
-            target += (key + '=' + value + '&');
+            if (value!=null){
+                target += (key + '=' + value + '&');
+            }
         });
         target += 'start=' + start + '&size=' + size;
         return target;

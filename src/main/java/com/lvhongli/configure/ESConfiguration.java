@@ -91,8 +91,8 @@ public class ESConfiguration  {
     public ElasticsearchTemplate elasticsearchTemplate() {
         Client client = buildClient();
         ElasticsearchTemplate template = new ElasticsearchTemplate(client);
-        template.createIndex(EsHouseDto.class);
-        template.putMapping(EsHouseDto.class);
+//        template.createIndex(EsHouseDto.class);
+//        template.putMapping(EsHouseDto.class);
         return template;
     }
 }

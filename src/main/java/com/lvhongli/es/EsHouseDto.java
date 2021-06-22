@@ -18,7 +18,7 @@ public class EsHouseDto {
 
     @ApiModelProperty(value = "房源id", example = "123")
     @Id
-    @Field(type = FieldType.Long, fielddata = true)
+    @Field(type = FieldType.Long)
     private Long id;
 
     @ApiModelProperty(value = "房源封面", example = "http://123")
@@ -48,6 +48,14 @@ public class EsHouseDto {
     @ApiModelProperty(value = "几厅", example = "1")
     @Field(type = FieldType.Integer)
     private Integer parlour;
+
+    @ApiModelProperty(value = "几卫", example = "1")
+    @Field(type = FieldType.Integer)
+    private Integer bathroom;
+
+    @ApiModelProperty(value = "朝向", example = "1")
+    @Field(type = FieldType.Integer)
+    private Integer direction;
 
     @ApiModelProperty(value = "房屋面积 米", example = "12")
     @Field(type = FieldType.Integer)
@@ -130,6 +138,10 @@ public class EsHouseDto {
     @ApiModelProperty(value = "看房人数", example = "")
     @Field(type = FieldType.Integer)
     private int watchPerson;
+
+    @ApiModelProperty(value = "管理员id", example = "")
+    @Field(type = FieldType.Integer)
+    private Integer adminId;
 
 
 }

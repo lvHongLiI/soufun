@@ -35,7 +35,7 @@ public class RentSearch {
     private String orderBy = "lastUpdateTime";
 
     @ApiModelProperty(value = "升序还是降序", example = "desc")
-    private Sort.Direction orderDirection = Sort.Direction.DESC;
+    private String orderDirection = "DESC";
 
     @ApiModelProperty(value = "起始位置", example = "1")
     private int start = 0;

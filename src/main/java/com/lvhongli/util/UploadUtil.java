@@ -42,6 +42,8 @@ public class UploadUtil {
 
     private Map<String,String> fileTypes;
 
+    private String prefix;
+
     public String getBasePath() {
         String os = System.getProperty("os.name");
         if(os.toLowerCase().startsWith("win")) {

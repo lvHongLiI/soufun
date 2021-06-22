@@ -44,8 +44,7 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
         }
         List<Role> list = roleRepository.findAllByUserId(user.getId());
         List<SimpleGrantedAuthority> authorities = list.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
-        org.springframework.security.core.userdetails.User use = new org.springframework.security.core.userdetails.User(name, password, authorities);
-        return new UsernamePasswordAuthenticationToken(use,password,authorities);
+        return new UsernamePasswordAuthenticationToken(user,password,authorities);
     }
 
     @Override

@@ -38,18 +38,13 @@ swagger:
   production: true  # 屏蔽所有Swagger的相关资源 true打开 false关闭
 
 
-upload:
-  location:
-    windows: d:/soufun/file/
-    linux: /home/soufun/file/
-  singleFileSize:
-    jpg: 2048000
-    jfif: 2048000
-  multipleFilesSize:
-    jpg: 2048000
-    jfif: 2048000
-  defaultSingleFileSize: 2048000
-  defaultMultipleFileSize: 20480000
-  fileTypes:
-    jpg: 图片
-    jfif: 图片
+
+
+alipay:
+  serverUrl: https://openapi.alipay.com/gateway.do
+  appId: 2021001196610001
+  privateKey:
+  publicKey:
+  signType: RSA2
+  charset: UTF-8
+  format: json

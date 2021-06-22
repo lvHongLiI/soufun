@@ -11,7 +11,7 @@ import java.util.List;
  * 角色数据DAO
  * Created by 瓦力.
  */
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    List<Role>  findAllByUserId(Long userId);
+    List<Role>  findAllByUserId(Integer userId);
 }

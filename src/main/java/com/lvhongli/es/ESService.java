@@ -6,6 +6,9 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.metrics.valuecount.InternalValueCount;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,12 +16,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Component
@@ -90,7 +96,7 @@ public class ESService {
             filterBuilder.must(roomArea);
         }
         //3.分页和高亮
-        queryBuilder.withPageable(PageRequest.of(search.getStart(),search.getSize(), Sort.by(search.getOrderDirection(),search.getOrderBy())));
+        queryBuilder.withPageable(PageRequest.of(search.getStart(),search.getSize(), Sort.by(Sort.Direction.valueOf(search.getOrderDirection()),search.getOrderBy())));
         queryBuilder.withQuery(boolQuery);
         queryBuilder.withFilter(filterBuilder);
         HighlightBuilder highlightBuilder = new HighlightBuilder();
@@ -99,8 +105,27 @@ public class ESService {
         }
 
        queryBuilder.withHighlightFields(highlightBuilder.fields().toArray(new HighlightBuilder.Field[highlightBuilder.fields().size()]));
-        template.queryForPage(queryBuilder.build(),EsHouseDto.class);
         return esRepository.search(queryBuilder.build());
     }
 
+
+    public EsHouseDto searchById(Long id) {
+        Optional<EsHouseDto> optional = esRepository.findById(id);
+        if (optional.isPresent()){
+            return optional.get();
+        }
+        return null;
+    }
+
+
+    public Long houseCount(Map map){
+        NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
+        BoolQueryBuilder query = QueryBuilders.boolQuery();
+        map.forEach((k,v)->{query.must().add(QueryBuilders.matchQuery(k.toString(),v));});
+        builder.withFilter(query);
+        builder.addAggregation(AggregationBuilders.count("count").field("id"));
+        AggregatedPage<EsHouseDto> aggregated = template.queryForPage(builder.build(), EsHouseDto.class);
+        InternalValueCount count= (InternalValueCount) aggregated.getAggregation("count");
+       return count.getValue();
+    }
 }

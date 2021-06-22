@@ -26,7 +26,6 @@ public class LoginAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             targetUrl=targetUrl.substring(0,targetUrl.indexOf("?"));
         }
         targetUrl=targetUrl.replace("login","center");
-        System.out.println("targetUrl:"+targetUrl);
         super.setDefaultTargetUrl(targetUrl);
         super.onAuthenticationSuccess(request,response,authentication);
     }

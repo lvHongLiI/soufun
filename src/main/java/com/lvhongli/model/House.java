@@ -25,7 +25,7 @@ public class House {
     private String title;
 
     @Column(name = "admin_id")
-    private Long adminId;
+    private Integer adminId;
 
     private Integer price;
 

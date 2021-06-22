@@ -83,3 +83,20 @@ elasticsearch:
   cluster:
     name: elasticsearch
   pool: 10
+
+
+upload:
+  location:
+    windows: d:/soufun/file/
+    linux: /home/soufun/file/
+  singleFileSize:
+    jpg: 2048000
+    jfif: 2048000
+  multipleFilesSize:
+    jpg: 2048000
+    jfif: 2048000
+  defaultSingleFileSize: 2048000
+  defaultMultipleFileSize: 20480000
+  fileTypes:
+    jpg: 图片
+    jfif: 图片

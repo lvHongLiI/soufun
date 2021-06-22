@@ -47,7 +47,6 @@ public class MessageJob {
             future.addCallback(new ListenableFutureCallback<SendResult<String,String>>() {
                 @Override
                 public void onSuccess(SendResult<String, String> stringObjectSendResult) {
-                    System.out.println("发送成功");
                     v.setStatus(true);
                     messageRepository.save(v);
                     messageRepository.flush();

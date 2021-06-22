@@ -1,10 +1,7 @@
 package com.lvhongli.service.impl;
 
-import com.lvhongli.configure.ResultMsg;
-import com.lvhongli.dao.HouseAreaRepository;
-import com.lvhongli.dao.RentalRepository;
-import com.lvhongli.dao.RoomConfigRepository;
-import com.lvhongli.dao.SupportAddressRepository;
+import com.google.common.collect.ImmutableMap;
+import com.lvhongli.dao.*;
 import com.lvhongli.es.ESService;
 import com.lvhongli.es.EsHouseDto;
 import com.lvhongli.model.HouseArea;
@@ -18,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -34,6 +32,9 @@ public class ClientHouseServiceImpl implements ClientHouseService {
 
     @Autowired
     private RoomConfigRepository roomConfigRepository;
+
+    @Autowired
+    private HouseSubscribeRepertory houseSubscribeRepertory;
 
     @Autowired
     private ESService esService;
@@ -61,6 +62,33 @@ public class ClientHouseServiceImpl implements ClientHouseService {
     @Override
     public Page search(RentSearch rentSearch) {
         return  esService.search(rentSearch);
+    }
+
+    @Override
+    public EsHouseDto selectById(Long id) {
+        return esService.searchById(id);
+    }
+
+    @Override
+    public Integer getSubscribeStatus(Long houseId, Integer userId) {
+        Integer status = houseSubscribeRepertory.findHouseSubscribeStatus(houseId, userId);
+        if (status==null){
+            status=0;
+        }
+        return status;
+    }
+
+    @Override
+    public Long houseCount(EsHouseDto esHouseDto) {
+        HashMap<Object, Object> map = new HashMap<>();
+        if (esHouseDto.getCityEnName()!=null)
+            map.put("cityEnName", esHouseDto.getCityEnName());
+        if (esHouseDto.getRegionEnName()!=null)
+            map.put("regionEnName", esHouseDto.getRegionEnName());
+        if (esHouseDto.getDistrict()!=null)
+            map.put("direction", esHouseDto.getDirection());
+
+        return esService.houseCount(map);
     }
 
 

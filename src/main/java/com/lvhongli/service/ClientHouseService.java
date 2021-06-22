@@ -23,4 +23,10 @@ public interface ClientHouseService {
     List<RoomConfig> findRoomConfigByType(RoomConfigEnum type);
 
     Page search(RentSearch rentSearch);
+
+    EsHouseDto selectById(Long id);
+
+    Integer getSubscribeStatus(Long id, Integer id1);
+
+    Long houseCount(EsHouseDto esHouseDto);
 }

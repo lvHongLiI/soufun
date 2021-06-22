@@ -39,7 +39,7 @@
         </div>
         <div class="fr last">
             <div class="ditu fr">
-                <a th:href="@{/rent/house/map(cityEnName=${city.enName})}" target="_blank">
+                <a th:href="@{/rent/house/map(cityEnName=${house.regionEnName})}" target="_blank">
                     <i></i>
                     地图找房
                 </a>
@@ -55,7 +55,7 @@
             <i class="icon"></i>&nbsp;
             <a href="/">寻屋</a>
             <span class="stp">&nbsp;&gt;&nbsp;</span>[<a href="/" title="选择城市">
-            <span th:text="${city.cnName}">城市</span></a>]租房
+            <span th:text="${house.cityEnName}">城市</span></a>]租房
             <span class="stp">&nbsp;&gt;&nbsp;</span>当前房源
         </div>
         <div class="fr r-txt"></div>
@@ -67,11 +67,12 @@
         <div class="content">
             <div class="title">
                 <h1 class="main" th:text="${house.title}"></h1>
-                <div class="sub" th:text="${house.houseDetail.description}">这个经纪人很懒，没写核心卖点</div>
+                <div class="sub" th:text="${house.description}">这个经纪人很懒，没写核心卖点</div>
             </div>
             <div class="btnContainer ">
-                <button id="subscribe" th:switch="${house.subscribeStatus}"
-                        th:attr="data-bind=${house.subscribeStatus}" th:style="${house.subscribeStatus != 0} ? 'background-color: #6a7b8c; color: black;'">
+
+                <button id="subscribe"  th:switch="${subscribeStatus}"
+                        th:attr="data-bind=${subscribeStatus}" th:style="${subscribeStatus != 0} ? 'background-color: #6a7b8c; color: black;'">
                     <span th:case="1">已加入待看</span>
                     <span th:case="2">已预约时间</span>
                     <span th:case="3">已看过此房</span>
@@ -85,7 +86,7 @@
             <div class="imgContainer layui-carousel" id="overview-photos">
                 <div carousel-item>
                     <div th:each="picture : ${house.pictures}">
-                        <img th:src="${picture.cdnPrefix + picture.path}"/>
+                        <img th:src="${picture}"/>
                     </div>
                 </div>
             </div>
@@ -102,12 +103,12 @@
                 <div class="removeIcon"></div>
             </div>
             <div class="zf-room">
-                <p class="lf"><i>面积：</i><span th:text="${house.area}"></span>平米</p>
+                <p class="lf"><i>面积：</i><span th:text="${house.roomArea}"></span>平米</p>
                 <p class="lf"><i>房屋户型：</i>
                     <span th:text="${house.room}"></span>室<span th:text="${house.parlour}"></span>厅<span
                             th:text="${house.bathroom}"></span>卫
                     <span
-                            th:text="${house.houseDetail.rentWay == 0} ? '整租' : '合租'">租住方式</span></p>
+                            th:text="${house.rentWay == 0} ? '整租' : '合租'">租住方式</span></p>
                 <p class="lf"><i>楼层：</i><span th:text="${house.floor}"></span>层 (共<span
                         th:text="${house.totalFloor}">0</span>层)</p>
                 <p class="lf"><i>房屋朝向：</i>
@@ -123,18 +124,18 @@
                 <div class="clear"></div>
                 <p><i>地铁：</i>
                     <span th:if="${house.distanceToSubway > -1}">
-                        距地铁<span th:text="${house.houseDetail.subwayLineName}">线</span>
-                        <span th:text="${house.houseDetail.subwayStationName}">站点</span>
+                        距地铁<span th:text="${house.subwayLineName}">线</span>
+                        <span th:text="${house.subwayStationName}">站点</span>
                         站<span th:text="${house.distanceToSubway}">0</span>米
                     </span>
                     <span th:if="${house.distanceToSubway < 0}">暂无数据</span>
                 </p>
                 <p><i>小区：</i>
                     <a href="/xiaoqu/1111027382235/" th:text="${house.district}">小区</a>
-                    - <a href="/zufang/c1111027382235/"><span th:text="${houseCountInDistrict}"></span>套出租中</a>
+                    - <a href="/zufang/c1111027382235/"><span th:text="${subscribeCount}"></span>套出租中</a>
                 </p>
                 <p><i>位置：</i>
-                    <a href="/zufang/chaoyang/" th:text="${region.cnName}">地区</a>
+                    <a href="/zufang/chaoyang/" th:text="${house.regionEnName}">地区</a>
                 </p>
                 <p class="lf"><i>发布时间：</i>
                     <span th:text="${#dates.format(house.lastUpdateTime, 'yyyy-MM-dd')}">时间</span>
@@ -144,12 +145,12 @@
             <div class="brokerInfo" log-mod="zufang_detail_diamond-first">
                 <a href="#">
                     <img class="LOGCLICK" data-log_id="20001" data-bl="agent" data-el="1000000020276906"
-                         th:src="${agent.avatar}" alt="经纪人">
+                         th:src="${user.avatar}" alt="经纪人">
                 </a>
                 <div class="brokerInfoText">
                     <div class="brokerName">
                         <a href="#" class="name LOGCLICK" data-log_id="20001"
-                           data-bl="agent" data-el="1000000020276906" th:text="${agent.name}">经纪人</a>
+                           data-bl="agent" data-el="1000000020276906" th:text="${user.name}">经纪人</a>
                         <span class="tag ">高级经纪人</span>
                         <a class="LOGCLICK" data-log_id="20001" data-bl="agentim"
                            data-el="1000000020276906" style="display: none;" title="在线咨询"
@@ -159,7 +160,7 @@
                     <div class="evaluate">
                         <span class="time">本房带看：<span th:text="${house.watchTimes}">0</span>次</span>
                     </div>
-                    <div class="phone" th:text="${agent.phoneNumber}">
+                    <div class="phone" th:text="${user.phoneNumber}">
                     </div>
                 </div>
             </div>
@@ -193,21 +194,21 @@
                 <div class="content">
                     <ul>
                         <li><span class="label">租赁方式：</span>
-                            <span th:text="${house.houseDetail.rentWay == 0 ? '整租' : '合租'}"></span>
+                            <span th:text="${house.rentWay == 0 ? '整租' : '合租'}"></span>
                         </li>
                         <li>
                             <span class="label">付款方式：</span>
                             季付
                         </li>
-                        <li>
-                            <span class="label">房屋现状：</span>
-                            <span th:switch="${house.status}">
-                                <span th:case="0">暂未上架</span>
-                                <span th:case="1">目前出租</span>
-                                <span th:case="2">已出租</span>
-                                <span th:case="3">已下架</span>
-                            </span>
-                        </li>
+<!--                        <li>-->
+<!--                            <span class="label">房屋现状：</span>-->
+<!--                            <span th:switch="${house.status}">-->
+<!--                                <span th:case="0">暂未上架</span>-->
+<!--                                <span th:case="1">目前出租</span>-->
+<!--                                <span th:case="2">已出租</span>-->
+<!--                                <span th:case="3">已下架</span>-->
+<!--                            </span>-->
+<!--                        </li>-->
                         <li><span class="label">房屋朝向：</span>
                             <span th:switch="${house.direction}">
                                 <span th:case="1">朝东</span>
@@ -225,75 +226,9 @@
                 <div class="name">房源特色</div>
                 <div class="zf-tag">
                     <ul class="se">
-                        <li class="tag1 tags">
+                        <li class="tag1 tags" th:each="tag: ${house.tags}">
                             <span></span>
-                            床
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag11 tags">
-                            <span></span>
-                            衣柜
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag12 tags">
-                            <span></span>
-                            桌椅
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag2 tags">
-                            <span></span>
-                            电视
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag3 tags">
-                            <span></span>
-                            冰箱
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag4 tags">
-                            <span></span>
-                            洗衣机
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag5 tags">
-                            <span></span>
-                            空调
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag10 tags">
-                            <span></span>
-                            热水器
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag13 tags">
-                            <span></span>
-                            微波炉
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag6 tags">
-                            <span></span>
-                            暖气
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag7 tags">
-                            <span></span>
-                            宽带
-                            <p>
-                            </p>
-                        </li>
-                        <li class="tag9 tags">
-                            <span></span>
-                            天然气
+                            [[${tag}]]
                             <p>
                             </p>
                         </li>
@@ -304,15 +239,15 @@
                     <ul>
                         <li>
                             <span class="label">户型介绍：</span>
-                            <span class="text" th:text="${house.houseDetail.layoutDesc}">暂无描述</span>
+                            <span class="text" th:text="${house.layoutDesc}">暂无描述</span>
                         </li>
                         <li>
                             <span class="label">交通出行：</span>
-                            <span class="text" th:text="${house.houseDetail.traffic}">暂无描述</span>
+                            <span class="text" th:text="${house.traffic}">暂无描述</span>
                         </li>
                         <li>
                             <span class="label">周边配套：</span>
-                            <span class="text" th:text="${house.houseDetail.roundService}">暂无描述</span>
+                            <span class="text" th:text="${house.roundService}">暂无描述</span>
                         </li>
                     </ul>
                 </div>
