@@ -62,6 +62,7 @@ public class KafkaConsumer {
         dto.setSubwayLineName(data.getDetail().getSubwayLineName());
         dto.setRentWay(data.getDetail().getRentWay());
         dto.setLayoutDesc(data.getDetail().getLayoutDesc());
+        dto.setDistrict(data.getHouse().getDistrict());
         dto.setDistanceToSubway(data.getHouse().getDistanceToSubway());
         dto.setTags(data.getTags().stream().map(v->v.getName()).collect(Collectors.toList()));
         dto.setPictures(data.getPictures().stream().map(v->uploadUtil.getPrefix()+v.getPath()).collect(Collectors.toList()));

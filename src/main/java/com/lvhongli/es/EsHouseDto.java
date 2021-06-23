@@ -18,7 +18,6 @@ public class EsHouseDto {
 
     @ApiModelProperty(value = "房源id", example = "123")
     @Id
-    @Field(type = FieldType.Long)
     private Long id;
 
     @ApiModelProperty(value = "房源封面", example = "http://123")
