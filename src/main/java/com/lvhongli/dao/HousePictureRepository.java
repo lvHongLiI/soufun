@@ -8,10 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 
 
-/**
- * Created by 瓦力.
- */
-public interface HousePictureRepository extends JpaRepository<HousePicture, Long> {
+public interface HousePictureRepository extends JpaRepository<HousePicture, Integer> {
 
-    List<HousePicture> findAllByHouseId(Long houseId);
+    List<HousePicture> findAllByHouseId(Integer houseId);
 }

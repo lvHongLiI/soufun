@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Created by 瓦力.
  */
 public interface HouseTagRepository extends JpaRepository<HouseTag, Long> {
-        List<HouseTag> findAllByHouseId(Long houseId);
+        List<HouseTag> findAllByHouseId(Integer houseId);
 
-        HouseTag findByHouseIdAndName(Long houseId,String name);
+        HouseTag findByHouseIdAndName(Integer houseId,String name);
 }

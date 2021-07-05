@@ -5,6 +5,7 @@ import com.lvhongli.dao.SupportAddressRepository;
 import com.lvhongli.es.EsHouseDto;
 import com.lvhongli.es.EsSearchPojo;
 import com.lvhongli.model.HouseSubscribe;
+import com.lvhongli.model.LocalLevelEnum;
 import com.lvhongli.model.Rental;
 import com.lvhongli.model.User;
 import com.lvhongli.pojo.RentSearch;
@@ -50,14 +51,12 @@ public class ClientHouseController {
     })
     public String list(RentSearch rentSearch, Model model){
         List<Rental> list = service.rentalAll();
-        model.addAttribute("regions",service.findRegions(rentSearch.getCityEnName()));
+        model.addAttribute("regions",service.findRegions(rentSearch.getCityId()));
         model.addAttribute("rentals",list);
         model.addAttribute("orientations",service.findRoomConfigByType(RoomConfigEnum.orientations));
         model.addAttribute("housetypes",service.findRoomConfigByType(RoomConfigEnum.housetype));
         model.addAttribute("areaBlocks",service.findAreas());
-        model.addAttribute("currentCity",new HashMap(){{
-            put("cnName",supportAddressRepository.findByEnNameCity(rentSearch.getCityEnName()).getCnName());
-        }});
+        model.addAttribute("currentCity",supportAddressRepository.findById(rentSearch.getCityId()).get());
         model.addAttribute("searchBody",rentSearch);
         Page page = service.search(rentSearch);
         model.addAttribute("total",page.getTotalElements());
@@ -81,16 +80,18 @@ public class ClientHouseController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "查看详情页", response = String.class),
     })
-    public  String selectById(@PathVariable Long id, HttpServletRequest request){
+    public  String selectById(@PathVariable Integer id, HttpServletRequest request){
        EsHouseDto esHouseDto= service.selectById(id);
        if (esHouseDto==null){
            return "404";
        }
        User user=userService.selectById( esHouseDto.getAdminId());
-       Integer subscribeStatus=service.getSubscribeStatus(esHouseDto.getId(),UserUtil.getUserId().getId());
+       Integer subscribeStatus=service.getSubscribeStatus(esHouseDto.getId(),UserUtil.getUser().getId());
         Long count=service.houseCount(esHouseDto);
        request.setAttribute("house",esHouseDto);
        request.setAttribute("user",user);
+       request.setAttribute("city",supportAddressRepository.findByIdAndLevel(esHouseDto.getCityId(), LocalLevelEnum.city));
+        request.setAttribute("region",supportAddressRepository.findByIdAndLevel(esHouseDto.getRegionId(), LocalLevelEnum.region));
        request.setAttribute("subscribeStatus",subscribeStatus);
         request.setAttribute("subscribeCount",count);
        return "house-detail";

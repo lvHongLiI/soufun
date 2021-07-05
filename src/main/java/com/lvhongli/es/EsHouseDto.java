@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class EsHouseDto {
 
     @ApiModelProperty(value = "房源id", example = "123")
     @Id
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "房源封面", example = "http://123")
     @Field(type = FieldType.keyword)
@@ -28,13 +29,13 @@ public class EsHouseDto {
     @Field(type = FieldType.text,analyzer = "ik_max_word")
     private String title;
 
-    @ApiModelProperty(value = "城市名称", example = "北京")
-    @Field(type = FieldType.keyword)
-    private String cityEnName;
+    @ApiModelProperty(value = "城市Id", example = "1")
+    @Field(type = FieldType.Integer)
+    private Integer cityId;
 
-    @ApiModelProperty(value = "区县名称", example = "东城区")
-    @Field(type = FieldType.text,analyzer = "ik_max_word")
-    private String regionEnName;
+    @ApiModelProperty(value = "区县Id", example = "2")
+    @Field(type = FieldType.Integer)
+    private Integer regionId;
 
     @ApiModelProperty(value = "所在小区", example = "姜黄花园")
     @Field(type = FieldType.text,analyzer = "ik_max_word")
@@ -89,8 +90,8 @@ public class EsHouseDto {
     private List<String> tags;
 
     @ApiModelProperty(value = "价格", example = "122")
-    @Field(type = FieldType.Integer)
-    private Integer price;
+    @Field(type = FieldType.Double)
+    private BigDecimal price;
 
     @ApiModelProperty(value = "更新时间", example = "2020-02-02")
     @Field(type = FieldType.Date,format = DateFormat.custom,pattern = "yyyy-MM-dd HH:mm:ss")

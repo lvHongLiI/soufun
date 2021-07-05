@@ -14,5 +14,5 @@ import java.util.List;
 public interface SubwayStationRepository extends JpaRepository<SubwayStation, Long> {
 
 
-     List<SubwayStation> findAllBySubwayId(Long SubwayId);
+     List<SubwayStation> findAllBySubwayId(Integer SubwayId);
 }

@@ -4,12 +4,16 @@ import com.lvhongli.configure.ResultMsg;
 
 public interface SupportAddressService {
 
-    ResultMsg findAllCity();
+//    ResultMsg findAllCity();
 
 
-    ResultMsg findRegionList(String enName);
+    ResultMsg findRegionList(Integer pid);
 
-    ResultMsg findSubwayLine(String enName);
+    ResultMsg findSubwayLine(Integer cityId);
 
-    ResultMsg findSubwayStation(Long subwayId);
+    ResultMsg findSubwayStation(Integer subwayId);
+
+    ResultMsg getCityAll();
+
+    ResultMsg getPinYinCityAll();
 }

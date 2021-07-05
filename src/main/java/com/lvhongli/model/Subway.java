@@ -1,48 +1,28 @@
 package com.lvhongli.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.persistence.*;
 
 /**
  * Created by 瓦力.
  */
 @Entity
 @Table(name = "subway")
+@Data
 public class Subway {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
+    @Column(name = "name")
+    @ApiModelProperty(value = "名称", example = "1号线")
     private String name;
 
-    @Column(name = "city_en_name")
-    private String cityEnName;
+    @JoinColumn(name = "support_address_id")
+    @ApiModelProperty(value = "城市", example = "北京市")
+    @ManyToOne
+    private SupportAddress city;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCityEnName() {
-        return cityEnName;
-    }
-
-    public void setCityEnName(String cityEnName) {
-        this.cityEnName = cityEnName;
-    }
 }

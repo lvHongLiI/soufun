@@ -51,13 +51,13 @@
                 <ul class="cl">
                     <li class="dropDown dropDown_hover">
                         <a href="#" class="dropDown_A">
-                            <div sec:authentication="name">
+                            <div th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.name}">
                                 用户名
                             </div>
 
                             <i class="Hui-iconfont">&#xe6d5;</i></a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="javascript:;" th:onclick="'mySelfInfo(' + ${adminId} + ')'">个人信息</a></li>
+                            <li><a href="javascript:;" th:onclick="'mySelfInfo(' + ${id} + ')'">个人信息</a></li>
                             <li><a href="/admin/login">切换账户</a></li>
                             <li><a href="/logout">退出</a></li>
                         </ul>
@@ -102,7 +102,7 @@
                 </dt>
                 <dd>
                     <ul>
-                        <li><a data-href="/admin/house/subscribe" data-title="预约管理" href="javascript:void(0)">预约管理
+                        <li><a data-href="/admin/subscribe/show/" data-title="预约管理" href="javascript:void(0)">预约管理
                         </a></li>
                     </ul>
                 </dd>

@@ -39,24 +39,24 @@ var table = $('#data-table').DataTable({
             }
         },
         columns: [{ // 绑定数据源
-            data: "first.id",
+            data: "id",
         }, {
-            data: "first.title",
+            data: "house.title",
             searchable: false // 通过全局搜索框搜索标题
         }, {
-            data: "first.cover",
+            data: "cover",
             searchable: false,
             orderable: false
         }, {
-            data: "first.area"
+            data: "house.area"
         }, {
-            data: "first.price"
+            data: "house.price"
         }, {
-            data: "first.floor"
+            data: "house.floor"
         }, {
-            data: "first.watchTimes"
+            data: "house.watchTimes"
         }, {
-            data: "second.orderTime"
+            data: "orderTime"
         }, {
             data: null
         }],
@@ -70,13 +70,13 @@ var table = $('#data-table').DataTable({
             targets: 1,
             render: function (data, type, row, meta) {
                 return '<td class="text-l"><u style="cursor:pointer" class="text-primary"' +
-                    'onClick="house_edit(\'查看\', \'/house/show?id=' + row.first.id + '\')" title="查看">' + data + '</u></td>';
+                    'onClick="house_edit(\'查看\', \'/house/show?id=' + row.id + '\')" title="查看">' + data + '</u></td>';
             }
         }, {
             targets: 2,
             render: function (data, type, row, meta) {
-                return '<td><img onClick="house_edit(\'查看\', \'/house/show?id=' + row.first.id + '\')" title="查看"' +
-                    ' class="picture-thumb" src="http://7xo6gy.com1.z0.glb.clouddn.com/' + data + '?imageView2/1/w/200/h/100"></td>';
+                return '<td><img onClick="house_edit(\'查看\', \'/house/show?id=' + row.id + '\')" title="查看"' +
+                    ' class="picture-thumb" src="/upload/' + row.house.cover +'" width="100px" height="100px"></td>';
             }
         }, {
             targets: 7,
@@ -86,19 +86,19 @@ var table = $('#data-table').DataTable({
         }, {
             targets: 8,
             render: function (data, type, row, meta) {
-                return '<a style="text-decoration: underline" onclick="userTip(' + row.second.userId + ')">查看用户信息</a>'
+                return '<a style="text-decoration: underline" onclick="userTip(' + row.userId + ')">查看用户信息</a>'
             }
         }, {
             targets: 9,
             render: function (data, type, row, meta) {
                 return '<td class="f-14 td-manage"><a style="text-decoration:none" class="ml-5"' +
-                    ' onClick="finishSubscribe(this,' + row.first.id + ')" href="javascript:;"' +
+                    ' onClick="finishSubscribe(this,' + row.id + ')" href="javascript:;"' +
                     ' title="带看完成"><i class="Hui-iconfont">&#xe603;</i></a></td>';
             }
         }],
         ajax: {
             type: "GET",
-            url: "/admin/house/subscribe/list", // 服务器url
+            url: "/admin/subscribe/findAll", // 服务器url
             cache: false,
             data: function (data) {
                 var params = {};

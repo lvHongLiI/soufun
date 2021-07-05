@@ -10,11 +10,11 @@ public class RentSearch {
     @ApiModelProperty(value = "关键字", example = "嘿嘿")
     private String keywords;
 
-    @ApiModelProperty(value = "城市名称", example = "北京")
-    private String cityEnName;
+    @ApiModelProperty(value = "城市id 如：北京", example = "12")
+    private Integer cityId;
 
-    @ApiModelProperty(value = "区县名称", example = "大恩区")
-    private String regionEnName;
+    @ApiModelProperty(value = "区县id 如：大恩区", example = "12")
+    private Integer regionId;
 
     @ApiModelProperty(value = "价格范围", example = "0~500")
     private String priceBlock;

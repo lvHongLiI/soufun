@@ -8,21 +8,19 @@ function showError(message) {
     layer.msg("Error: " + message, {icon: 5, time: 2000});
 }
 
-function changeCity(city,cityName) {
-    $.get('/supportAddress/findAllCity', function (data, status) {
+function changeCity(city,cityId) {
+    $.get('/supportAddress/getCityAll', function (data, status) {
         if (status !== 'success' || data.status !== 200) {
             showError(data.message);
             return;
         }
         city.html(tipStr);
         var str = '';
-        console.log("ccc"+cityName)
-        console.log("ccc"+$(city).val())
         $.each(data.data, function (i, item) {
-            if (cityName==item.enName){
-                str += "<option value=" + item.enName + " selected='selected'>" + item.cnName + "</option>";
+            if (cityId==item.id){
+                str += "<option value=" + item.id + " selected='selected'>" + item.name + "</option>";
             }else {
-                str += "<option value=" + item.enName + ">" + item.cnName + "</option>";
+                str += "<option value=" + item.id + ">" + item.name + "</option>";
             }
 
         });
@@ -30,8 +28,8 @@ function changeCity(city,cityName) {
     });
 }
 
-function changeRegion(region, cityName) {
-    $.get('/supportAddress/findRegionList/' + cityName, function (data, status) {
+function changeRegion(region, cityId) {
+    $.get('/supportAddress/findRegionList/' + cityId, function (data, status) {
         if (status !== 'success' || data.status !== 200) {
             showError(data.message);
             return;
@@ -41,18 +39,18 @@ function changeRegion(region, cityName) {
 
         var str = "";
         $.each(data.data, function (i, item) {
-            if (item.enName === selectedVal) {
-                str += "<option value=" + item.enName + " selected='selected'>" + item.cnName + "</option>";
+            if (item.id == selectedVal) {
+                str += "<option value=" + item.id + " selected='selected'>" + item.name + "</option>";
             } else {
-                str += "<option value=" + item.enName + ">" + item.cnName + "</option>";
+                str += "<option value=" + item.id + ">" + item.name + "</option>";
             }
         });
         region.append(str);
     });
 }
 
-function changeSubwayLine(subwayLine, cityName) {
-    $.get('/supportAddress/findSubwayLine/' + cityName, function (data, status) {
+function changeSubwayLine(subwayLine, cityId) {
+    $.get('/supportAddress/findSubwayLine/' + cityId, function (data, status) {
         if (status !== 'success' || data.status !== 200) {
             showError(data.message);
             return;

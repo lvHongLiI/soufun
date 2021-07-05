@@ -162,9 +162,9 @@ $(function () {
     });
 
     function submitSuccess(data) {
-        if (data.code === 200) {
+        if (data.status === 200) {
             layer.msg('已修改成功!', {icon: 6, time: 2000});
-        } else if (data.code === 403) {
+        } else if (data.status === 403) {
             layer.msg('登录失效!', {icon: 5, time: 2000});
         } else {
             layer.msg(data.message, {icon: 5, time: 2000});
@@ -212,13 +212,13 @@ function loadWaitRecord() {
                 var lis = [],
                     start = (page - 1) * 3;
 
-                $.get('/api/user/house/subscribe/list?status=1' + '&start=' + start + '&size=3',
+                $.get('/client/subscribe/query/list/1?' + 'start=' + start + '&size=3',
                     function (res) {
                         layui.each(res.data, function (index, tuple) {
-                            var house = tuple.first;
+                            var house = tuple.house;
                             var content = '<li><input type="radio" name="houseId" value="' + house.id + '">预约此房源'
                                 + '<div class="cover fl">'
-                                + '<img src="http://7xo6gy.com1.z0.glb.clouddn.com/' + house.cover + '" width="100px" height="80px"></div> ' +
+                                + '<img src="/upload/' + house.cover + '" width="100px" height="80px"></div> ' +
                                 '<div class="info fl"><a><h1>' + house.title + '</h1></a><div class="des1">' +
                                 '<i></i><span><a href="#" target="_blank">' + house.district + '</a></span>' +
                                 '<span class="line">|</span><span>' + house.room + '室' + house.parlour + '厅</span>'
@@ -251,15 +251,15 @@ function loadSubscribeList() {
                 var lis = [],
                     start = (page - 1) * 3;
 
-                $.get('/api/user/house/subscribe/list?status=2' + '&start=' + start + '&size=3',
+                $.get('/client/subscribe/query/list/1?' + 'start=' + start + '&size=3',
                     function (res) {
                         layui.each(res.data, function (index, tuple) {
-                            var house = tuple.first,
-                                subscribe = tuple.second;
+                            var subscribe = tuple,
+                                house = tuple.house;
                             var content = '<li><span' +
                                 ' class="order-time">预约时间：' + (new Date(subscribe.orderTime)).Format("yyyy-MM-dd")
                                 + '</span><div class="cover fl">'
-                                + '<img src="http://7xo6gy.com1.z0.glb.clouddn.com/' + house.cover + '" width="100px" height="80px"></div> ' +
+                                + '<img src="/upload/' + house.cover + '" width="100px" height="80px"></div> ' +
                                 '<div class="info fl"><a><h1>' + house.title + '</h1></a><div class="des1">' +
                                 '<i></i><span><a href="#" target="_blank">' + house.district + '</a></span>' +
                                 '<span class="line">|</span><span>' + house.room + '室' + house.parlour + '厅</span>'
@@ -292,15 +292,15 @@ function loadFinishList() {
                 var lis = [],
                     start = (page - 1) * 3;
 
-                $.get('/api/user/house/subscribe/list?status=3' + '&start=' + start + '&size=3',
+                $.get('/client/subscribe/query/list/1?' + 'start=' + start + '&size=3',
                     function (res) {
                         layui.each(res.data, function (index, tuple) {
-                            var house = tuple.first,
-                                subscribe = tuple.second;
+                            var subscribe = tuple,
+                                house = tuple.house;
                             var content = '<li><span' +
                                 ' class="order-time">看房时间：' + (new Date(subscribe.orderTime)).Format("yyyy-MM-dd")
                                 + '</span><div class="cover fl">'
-                                + '<img src="http://7xo6gy.com1.z0.glb.clouddn.com/' + house.cover + '" width="100px" height="80px"></div> ' +
+                                + '<img src="/upload' + house.cover + '" width="100px" height="80px"></div> ' +
                                 '<div class="info fl"><a><h1>' + house.title + '</h1></a><div class="des1">' +
                                 '<i></i><span><a href="#" target="_blank">' + house.district + '</a></span>' +
                                 '<span class="line">|</span><span>' + house.room + '室' + house.parlour + '厅</span>'

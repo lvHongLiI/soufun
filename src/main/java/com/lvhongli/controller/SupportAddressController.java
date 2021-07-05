@@ -18,22 +18,31 @@ public class SupportAddressController {
     @Autowired
     private SupportAddressService service;
 
-    @GetMapping("/findAllCity")
-    public ResultMsg findAllCity(){
-        return   service.findAllCity();
+
+
+    @GetMapping("/findRegionList/{pid}")
+    public ResultMsg findRegionList(@PathVariable("pid") Integer pid){
+        return   service.findRegionList(pid);
     }
 
-    @GetMapping("/findRegionList/{cityEnName}")
-    public ResultMsg findRegionList(@PathVariable("cityEnName") String enName){
-        return   service.findRegionList(enName);
+    @GetMapping("/findSubwayLine/{cityId}")
+    public ResultMsg findSubwayLine( @PathVariable("cityId") Integer cityId){
+        return service.findSubwayLine(cityId);
     }
 
-    @GetMapping("/findSubwayLine/{cityEnName}")
-    public ResultMsg findSubwayLine( @PathVariable("cityEnName") String enName){
-        return service.findSubwayLine(enName);
-    }
     @GetMapping("/findSubwayStation/{subwayId}")
-    public ResultMsg findSubwayStation( @PathVariable("subwayId") Long subwayId){
+    public ResultMsg findSubwayStation( @PathVariable("subwayId") Integer subwayId){
         return service.findSubwayStation(subwayId);
+    }
+
+    @GetMapping("/getCityAll")
+    public ResultMsg getCityAll(){
+        return service.getCityAll();
+    }
+
+
+    @GetMapping("/getPinYinCityAll")
+    public ResultMsg getPinYinCityAll(){
+        return service.getPinYinCityAll();
     }
 }

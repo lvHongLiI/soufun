@@ -38,7 +38,7 @@ public class ESService {
 
     private final List<String> searchField= Arrays.asList("title","district","description","layoutDesc","traffic","roundService");
 
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         esRepository.deleteById(id);
     }
 
@@ -58,11 +58,11 @@ public class ESService {
         }
         //2.设置过滤字段
         BoolQueryBuilder filterBuilder = QueryBuilders.boolQuery();
-        if (!StringUtils.isEmpty(search.getCityEnName())){
-            filterBuilder.must(QueryBuilders.matchQuery("cityEnName",search.getCityEnName()));
+        if (search.getCityId()!=null){
+            filterBuilder.must(QueryBuilders.matchQuery("cityId",search.getCityId()));
         }
-        if (!StringUtils.isEmpty(search.getRegionEnName())){
-            filterBuilder.must(QueryBuilders.matchQuery("region",search.getRegionEnName()));
+        if (search.getRegionId()!=null){
+            filterBuilder.must(QueryBuilders.matchQuery("regionId",search.getRegionId()));
         }
         if (search.getDirection()!=null){
             filterBuilder.must(QueryBuilders.matchQuery("roomDirection",search.getDirection()));
@@ -109,7 +109,7 @@ public class ESService {
     }
 
 
-    public EsHouseDto searchById(Long id) {
+    public EsHouseDto searchById(Integer id) {
         Optional<EsHouseDto> optional = esRepository.findById(id);
         if (optional.isPresent()){
             return optional.get();

@@ -1,121 +1,45 @@
 package com.lvhongli.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.lvhongli.converter.LevelConvert;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.persistence.*;
 
 /**
  * Created by 瓦力.
  */
 @Entity
 @Table(name = "support_address")
+@Data
 public class SupportAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    // 上一级行政单位
-    @Column(name = "belong_to")
-    private String belongTo;
+    @Column(name = "name")
+    @ApiModelProperty(value = "名称", example = "北京市")
+    private String name;
 
-    @Column(name = "en_name")
-    private String enName;
+    @Column(name = "frist_pin_yin")
+    @ApiModelProperty(value = "名称", example = "北京市")
+    private String fristPinYin;
 
-    @Column(name = "cn_name")
-    private String cnName;
-
-    private String level;
+    @Column(name = "level")
+    @ApiModelProperty(value = "级别", example = "city")
+    @Convert(converter = LevelConvert.class)
+    private LocalLevelEnum level;
 
     @Column(name = "baidu_map_lng")
-    private double baiduMapLongitude;
+    @ApiModelProperty(value = "经度", example = "154.123")
+    private Double baiduMapLongitude;
 
     @Column(name = "baidu_map_lat")
-    private double baiduMapLatitude;
+    @ApiModelProperty(value = "纬度", example = "1233.123")
+    private Double baiduMapLatitude;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "pid")
+    @ApiModelProperty(value = "父id", example = "123")
+    private Integer pid;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getBelongTo() {
-        return belongTo;
-    }
-
-    public void setBelongTo(String belongTo) {
-        this.belongTo = belongTo;
-    }
-
-    public String getEnName() {
-        return enName;
-    }
-
-    public void setEnName(String enName) {
-        this.enName = enName;
-    }
-
-    public String getCnName() {
-        return cnName;
-    }
-
-    public void setCnName(String cnName) {
-        this.cnName = cnName;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public double getBaiduMapLongitude() {
-        return baiduMapLongitude;
-    }
-
-    public void setBaiduMapLongitude(double baiduMapLongitude) {
-        this.baiduMapLongitude = baiduMapLongitude;
-    }
-
-    public double getBaiduMapLatitude() {
-        return baiduMapLatitude;
-    }
-
-    public void setBaiduMapLatitude(double baiduMapLatitude) {
-        this.baiduMapLatitude = baiduMapLatitude;
-    }
-
-    /**
-     * 行政级别定义
-     */
-    public enum Level {
-        CITY("city"),
-        REGION("region");
-
-        private String value;
-
-        Level(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public static Level of(String value) {
-            for (Level level : Level.values()) {
-                if (level.getValue().equals(value)) {
-                    return level;
-                }
-            }
-
-            throw new IllegalArgumentException();
-        }
-    }
 }

@@ -5,12 +5,7 @@ package com.lvhongli.dao;
 import com.lvhongli.model.HouseDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface HouseDetailRepository extends JpaRepository<HouseDetail, Integer> {
 
-
-/**
- * Created by 瓦力.
- */
-public interface HouseDetailRepository extends JpaRepository<HouseDetail, Long> {
-
-    HouseDetail findByHouseId(Long houseId);
+    HouseDetail findByHouseId(Integer houseId);
 }

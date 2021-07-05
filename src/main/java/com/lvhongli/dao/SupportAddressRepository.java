@@ -2,26 +2,22 @@ package com.lvhongli.dao;
 
 import java.util.List;
 
+import com.lvhongli.model.LocalLevelEnum;
 import com.lvhongli.model.SupportAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 
-/**
- * Created by 瓦力.
- */
-public interface SupportAddressRepository extends JpaRepository<SupportAddress, Long> {
+public interface SupportAddressRepository extends JpaRepository<SupportAddress, Integer> {
 
-    List<SupportAddress> findAllByLevel(String Level);
+    List<SupportAddress> findAllByLevel(LocalLevelEnum Level);
 
-    List<SupportAddress> findAllByBelongToAndLevel(@Param("belongTo") String belongTo,@Param("level") String level);
+    List<SupportAddress> findByPidAndLevel(@Param("pid") Integer pid, @Param("level") LocalLevelEnum level);
 
-    SupportAddress findByEnNameAndLevel(String enName,String Level);
 
-    @Query(value = "select * from support_address where en_name=:enName and level='city'",nativeQuery = true)
-    SupportAddress findByEnNameCity(String enName);
+    SupportAddress findByIdAndLevel(@Param("id") Integer id, @Param("level") LocalLevelEnum level);
 
-    @Query(value = "select * from support_address where en_name=:enName and level='region'",nativeQuery = true)
-    SupportAddress findByEnNameRegion(String enName);
+    @Query(value = "select * from support_address where `level`='city'",nativeQuery = true)
+    List<SupportAddress> findAllCityPinYin();
 }

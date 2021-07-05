@@ -23,8 +23,8 @@
                 <div class="formControls col-xs-8 col-sm-9">
                     <span class="select-box" style="widows: 0;">
                         <select class="select" name="cityEnName" id="city">
-                            <option value="" th:value="${city.enName}">
-                                <span th:text="${city.cnName}"></span>
+                            <option value="" th:value="${city.id}">
+                                <span th:text="${city.name}"></span>
                             </option>
                         </select>
                     </span>
@@ -35,8 +35,8 @@
                 <div class="formControls col-xs-8 col-sm-9">
                     <span class="select-box" style="widows: 0;">
                         <select class="select" name="regionEnName" id="region">
-                            <option value="" th:value="${region.enName}">
-                                <span th:text="${region.cnName}"></span>
+                            <option value="" th:value="${region.id}">
+                                <span th:text="${region.name}"></span>
                             </option>
                         </select>
                     </span>
@@ -207,8 +207,8 @@
                 <label class="form-label col-xs-4 col-sm-2" style="width: 18%">已上传图片：</label>
                 <div class="uploaded-list-container ">
                     <tr th:each="picture: ${pictures}">
-                        <a th:href="${picture.path}">
-                            <img th:src="${picture.path}" width="150" height="100">
+                        <a th:href="'http://localhost:8131/upload/'+${picture.path}">
+                            <img th:src="'http://localhost:8131/upload/'+${picture.path}" width="150" height="100">
                             <input type="hidden" th:value="${picture.id}">
                         </a>
                     </tr>

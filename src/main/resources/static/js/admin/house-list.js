@@ -172,14 +172,14 @@ $(function () {
     var $city = $("#city");
 
     // 城市绑定
-    $.get('/supportAddress/findAllCity', function (data, status) {
+    $.get('/supportAddress/getCityAll', function (data, status) {
         if (status !== 'success' || data.status !== 200) {
             alert("Error: " + data.message);
             return;
         }
         var str = '';
         $.each(data.data, function (i, item) {
-            str += "<option value=" + item.enName + ">" + item.cnName + "</option>";
+            str += "<option value=" + item.id + ">" + item.name + "</option>";
         });
         $city.append(str);
     });

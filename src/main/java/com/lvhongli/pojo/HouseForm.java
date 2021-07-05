@@ -2,6 +2,7 @@ package com.lvhongli.pojo;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.Size;
  */
 @Data
 public class HouseForm {
-    private Long id;
+    private Integer id;
 
     @NotNull(message = "大标题不允许为空!")
     @Size(min = 1, max = 30, message = "标题长度必须在1~30之间")
@@ -23,11 +24,11 @@ public class HouseForm {
 
     @NotNull(message = "必须选中一个城市")
     @Size(min = 1, message = "非法的城市")
-    private String cityEnName;
+    private Integer cityId;
 
     @NotNull(message = "必须选中一个地区")
     @Size(min = 1, message = "非法的地区")
-    private String regionEnName;
+    private Integer regionId;
 
     @NotNull(message = "必须填写街道")
     @Size(min = 1, message = "非法的街道")
@@ -65,7 +66,7 @@ public class HouseForm {
 
     @NotNull(message = "必须填写租赁价格")
     @Min(value = 1)
-    private Integer price;
+    private BigDecimal price;
 
     @NotNull(message = "必须选中一个租赁方式")
     @Min(value = 0)

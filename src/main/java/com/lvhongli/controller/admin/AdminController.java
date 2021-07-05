@@ -62,15 +62,17 @@ public class AdminController {
         return "admin/house-show";
     }
 
-
-
-    @GetMapping({"/","/index"})
-    @ApiOperation(value = "首页", notes = "")
+    @GetMapping("/admin/subscribe/show")
+    @ApiOperation(value = "预约管理页面", notes = "")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "首页", response = String.class),
+            @ApiResponse(code = 200, message = "预约管理页面", response = String.class),
     })
-    public String index(Model model){
-        return "index";
+    public String showSubscribe(){
+        return "admin/subscribe";
     }
+
+
+
+
 
 }

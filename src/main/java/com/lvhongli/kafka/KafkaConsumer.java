@@ -30,7 +30,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = MessageJob.delete_topic,groupId = "1")
     public void deleteEsData(ConsumerRecord consumerRecord, Acknowledgment ack){
-        esService.deleteById(Long.valueOf(consumerRecord.value().toString()));
+        esService.deleteById(Integer.valueOf(consumerRecord.value().toString()));
         ack.acknowledge();
     }
 
@@ -44,8 +44,8 @@ public class KafkaConsumer {
         dto.setRoomArea(data.getHouse().getArea());
         dto.setRoomDirection(data.getHouse().getDirection());
         dto.setTitle(data.getHouse().getTitle());
-        dto.setCityEnName(data.getHouse().getCityEnName());
-        dto.setRegionEnName(data.getHouse().getRegionEnName());
+        dto.setCityId(data.getHouse().getCity().getId());
+        dto.setRegionId(data.getHouse().getRegion().getId());
         dto.setRoom(data.getHouse().getRoom());
         dto.setBathroom(data.getHouse().getBathroom());
         dto.setBuildYear(data.getHouse().getBuildYear());

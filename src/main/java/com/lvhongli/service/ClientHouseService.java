@@ -16,7 +16,7 @@ public interface ClientHouseService {
 
     List<Rental> rentalAll();
 
-    List<SupportAddress> findRegions(String belongTo);
+    List<SupportAddress> findRegions(Integer pid);
 
     List<HouseArea> findAreas();
 
@@ -24,9 +24,9 @@ public interface ClientHouseService {
 
     Page search(RentSearch rentSearch);
 
-    EsHouseDto selectById(Long id);
+    EsHouseDto selectById(Integer id);
 
-    Integer getSubscribeStatus(Long id, Integer id1);
+    Integer getSubscribeStatus(Integer id, Integer id1);
 
     Long houseCount(EsHouseDto esHouseDto);
 }

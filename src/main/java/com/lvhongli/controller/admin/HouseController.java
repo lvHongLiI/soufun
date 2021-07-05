@@ -48,7 +48,7 @@ public class HouseController {
 
     @PutMapping("/update/{id}/{status}")
     @ResponseBody
-    public ResultMsg update(@PathVariable("id") Long id,@PathVariable("status")Integer status){
+    public ResultMsg update(@PathVariable("id") Integer id,@PathVariable("status")Integer status){
         return service.update(id,status);
     }
 
@@ -57,7 +57,7 @@ public class HouseController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "房源编辑页面", response = String.class),
     })
-    public String houseEdit(Long id, Model model){
+    public String houseEdit(Integer id, Model model){
         if (id==null){
             return "404";
         }
@@ -70,10 +70,8 @@ public class HouseController {
         model.addAttribute("houseDetail",service.findByDetail(id));
         model.addAttribute("houseTags",service.findByHouseTag(id).stream().map(s->s.getName()).toArray());
         model.addAttribute("pictures",service.findByHousePicture(id));
-        model.addAttribute("city",service.findByCity(house.getCityEnName()));
-        model.addAttribute("region",service.findByRegion(house.getRegionEnName()));
-        model.addAttribute("region",service.findByRegion(house.getRegionEnName()));
-        model.addAttribute("region",service.findByRegion(house.getRegionEnName()));
+        model.addAttribute("city",house.getCity());
+        model.addAttribute("region",house.getRegion());
         return "admin/house-edit";
     }
 
@@ -104,7 +102,7 @@ public class HouseController {
             @ApiResponse(code = 200, message = "操作成功", response = ResultMsg.class),
     })
     @ResponseBody
-    public ResultMsg deletePhoto(Long id){
+    public ResultMsg deletePhoto(Integer id){
         return service.deletePhoto(id);
     }
 
@@ -114,7 +112,7 @@ public class HouseController {
             @ApiResponse(code = 200, message = "操作成功", response = ResultMsg.class),
     })
     @ResponseBody
-    public ResultMsg cover(String coverId,Long houseId){
+    public ResultMsg cover(String coverId,Integer houseId){
         return service.cover(coverId,houseId);
     }
 

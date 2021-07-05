@@ -36,7 +36,9 @@ public class JPADataSourceConfig{
     @Bean("entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-        adapter.setGenerateDdl(true);
+        adapter.setShowSql(true);
+        adapter.setGenerateDdl(false);
+        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5InnoDBDialect");
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(ds);
         entityManagerFactoryBean.setJpaVendorAdapter(adapter);

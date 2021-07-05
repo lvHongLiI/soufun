@@ -15,27 +15,27 @@ public interface HouseService {
 
     Map findAll(HouseParam param);
 
-    ResultMsg update(Long id, Integer status);
+    ResultMsg update(Integer id, Integer status);
 
-    House findOne(Long id);
+    House findOne(Integer id);
 
-    HouseDetail findByDetail(Long id);
+    HouseDetail findByDetail(Integer id);
 
-    List<HouseTag> findByHouseTag(Long id);
+    List<HouseTag> findByHouseTag(Integer id);
 
-    List<HousePicture> findByHousePicture(Long id);
+    List<HousePicture> findByHousePicture(Integer id);
 
-    SupportAddress findByCity(String cityEnName);
+    SupportAddress findByCity(Integer id);
 
-    SupportAddress findByRegion(String regionEnName);
+    SupportAddress findByRegion(Integer id);
 
     ResultMsg addTag(HouseTag tag);
 
     ResultMsg deleteTag(HouseTag tag);
 
-    ResultMsg deletePhoto(Long id);
+    ResultMsg deletePhoto(Integer id);
 
-    ResultMsg cover(String coverId, Long houseId);
+    ResultMsg cover(String coverId, Integer houseId);
 
     ResultMsg edit(HouseForm houseForm);
 }

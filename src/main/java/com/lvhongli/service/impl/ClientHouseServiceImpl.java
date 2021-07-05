@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.lvhongli.dao.*;
 import com.lvhongli.es.ESService;
 import com.lvhongli.es.EsHouseDto;
-import com.lvhongli.model.HouseArea;
-import com.lvhongli.model.Rental;
-import com.lvhongli.model.RoomConfig;
-import com.lvhongli.model.SupportAddress;
+import com.lvhongli.model.*;
 import com.lvhongli.pojo.RentSearch;
 import com.lvhongli.pojo.RoomConfigEnum;
 import com.lvhongli.service.ClientHouseService;
@@ -45,8 +42,8 @@ public class ClientHouseServiceImpl implements ClientHouseService {
     }
 
     @Override
-    public List<SupportAddress> findRegions(String belongTo) {
-        return supportAddressRepository.findAllByBelongToAndLevel(belongTo,"region");
+    public List<SupportAddress> findRegions(Integer pid) {
+        return supportAddressRepository.findByPidAndLevel(pid, LocalLevelEnum.region);
     }
 
     @Override
@@ -65,12 +62,12 @@ public class ClientHouseServiceImpl implements ClientHouseService {
     }
 
     @Override
-    public EsHouseDto selectById(Long id) {
+    public EsHouseDto selectById(Integer id) {
         return esService.searchById(id);
     }
 
     @Override
-    public Integer getSubscribeStatus(Long houseId, Integer userId) {
+    public Integer getSubscribeStatus(Integer houseId, Integer userId) {
         Integer status = houseSubscribeRepertory.findHouseSubscribeStatus(houseId, userId);
         if (status==null){
             status=0;
@@ -81,12 +78,12 @@ public class ClientHouseServiceImpl implements ClientHouseService {
     @Override
     public Long houseCount(EsHouseDto esHouseDto) {
         HashMap<Object, Object> map = new HashMap<>();
-        if (esHouseDto.getCityEnName()!=null)
-            map.put("cityEnName", esHouseDto.getCityEnName());
-        if (esHouseDto.getRegionEnName()!=null)
-            map.put("regionEnName", esHouseDto.getRegionEnName());
+        if (esHouseDto.getCityId()!=null)
+            map.put("cityId", esHouseDto.getCityId());
+        if (esHouseDto.getRegionId()!=null)
+            map.put("regionId", esHouseDto.getRegionId());
         if (esHouseDto.getDistrict()!=null)
-            map.put("direction", esHouseDto.getDirection());
+            map.put("district", esHouseDto.getDistrict());
 
         return esService.houseCount(map);
     }

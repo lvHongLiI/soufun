@@ -68,6 +68,8 @@ public class HouseServiceImpl implements HouseService {
         house.setAdminId(user.getId());
         house.setBathroom(0);
         house.setStatus(0);
+        house.setCity(supportAddressRepository.findByIdAndLevel(houseForm.getCityId(),LocalLevelEnum.city));
+        house.setRegion(supportAddressRepository.findByIdAndLevel(houseForm.getRegionId(),LocalLevelEnum.region));
         houseRepository.save(house);
         HouseDetail houseDetail = new HouseDetail();
         BeanUtils.copyProperties(houseForm,houseDetail);
@@ -95,7 +97,7 @@ public class HouseServiceImpl implements HouseService {
         if (houseForm.getTags()!=null){
             for (String tag : houseForm.getTags()) {
                 HouseTag houseTag = new HouseTag();
-                houseTag .setHouseId(house.getId());
+                houseTag.setHouseId(house.getId());
                 houseTag.setName(tag);
                 tags.add(houseTag);
             }
@@ -121,7 +123,7 @@ public class HouseServiceImpl implements HouseService {
                 }
                 predicate = cb.equal(root.get("adminId"), user.getId());
                 if (param.getCity() != null) {
-                    predicate = cb.and(predicate, cb.equal(root.get("cityEnName"), param.getCity()));
+                    predicate = cb.and(predicate, cb.equal(root.get("cityId"), param.getCity()));
                 }
 
                 if (param.getStatus() != null) {
@@ -153,7 +155,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional
-    public ResultMsg update(Long id, Integer status) {
+    public ResultMsg update(Integer id, Integer status) {
         Optional<House> optional = houseRepository.findById(id);
         if (!optional.isPresent()){
             return ResultMsg.fail();
@@ -186,7 +188,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public House findOne(Long id) {
+    public House findOne(Integer id) {
         Optional<House> house = houseRepository.findById(id);
         if (house.isPresent())
             return house.get();
@@ -194,28 +196,28 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public HouseDetail findByDetail(Long id) {
+    public HouseDetail findByDetail(Integer id) {
         return houseDetailRepository.findByHouseId(id);
     }
 
     @Override
-    public List<HouseTag> findByHouseTag(Long id) {
+    public List<HouseTag> findByHouseTag(Integer id) {
         return houseTagRepository.findAllByHouseId(id);
     }
 
     @Override
-    public List<HousePicture> findByHousePicture(Long id) {
+    public List<HousePicture> findByHousePicture(Integer id) {
         return housePictureRepository.findAllByHouseId(id);
     }
 
     @Override
-    public SupportAddress findByCity(String cityEnName) {
-        return supportAddressRepository.findByEnNameAndLevel(cityEnName,"city");
+    public SupportAddress findByCity(Integer id) {
+        return supportAddressRepository.findByIdAndLevel(id,LocalLevelEnum.city);
     }
 
     @Override
-    public SupportAddress findByRegion(String regionEnName) {
-        return supportAddressRepository.findByEnNameAndLevel(regionEnName,"region");
+    public SupportAddress findByRegion(Integer id) {
+        return supportAddressRepository.findByIdAndLevel(id,LocalLevelEnum.region);
     }
 
     @Override
@@ -234,7 +236,7 @@ public class HouseServiceImpl implements HouseService {
 
 
     @Override
-    public ResultMsg deletePhoto(Long id) {
+    public ResultMsg deletePhoto(Integer id) {
         housePictureRepository.deleteById(id);
         return ResultMsg.success();
     }
@@ -242,7 +244,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Transactional
     @Override
-    public ResultMsg cover(String coverId, Long houseId) {
+    public ResultMsg cover(String coverId, Integer houseId) {
         houseRepository.updateCover(coverId,houseId);
         return ResultMsg.success();
     }
