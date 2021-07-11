@@ -4,6 +4,7 @@ import com.lvhongli.dao.RoleRepository;
 import com.lvhongli.dao.UserRepository;
 import com.lvhongli.model.Role;
 import com.lvhongli.model.User;
+import com.lvhongli.model.UserTypeEnum;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -35,7 +36,7 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = (String) authentication.getCredentials();
-        User user = userRepository.findByName(name);
+        User user = userRepository.findByUsernameAndType(name, UserTypeEnum.base);
         if (user==null){
             throw new AuthenticationCredentialsNotFoundException("用户名不存在");
         }
@@ -46,6 +47,19 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
         List<SimpleGrantedAuthority> authorities = list.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
         return new UsernamePasswordAuthenticationToken(user,password,authorities);
     }
+
+
+    /**
+     * 将支付宝用户转为Authentication
+     * @param user
+     * @return
+     */
+    public Authentication getAliPayAuthenticate(User user){
+        List<Role> list = roleRepository.findAllByUserId(user.getId());
+        List<SimpleGrantedAuthority> authorities = list.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
+        return new UsernamePasswordAuthenticationToken(user,user.getPassword(),authorities);
+    }
+
 
     @Override
     public boolean supports(Class<?> aClass) {

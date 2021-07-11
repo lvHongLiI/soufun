@@ -17,9 +17,6 @@ public class SystemUserServiceImpl  {
     @Autowired
     private UserRepository userRepository;
 
-    public User loadUserByUsername(String s) {
-        return userRepository.findByName(s);
-    }
 
     public User selectById(Integer adminId) {
         Optional<User> optional = userRepository.findById(adminId);

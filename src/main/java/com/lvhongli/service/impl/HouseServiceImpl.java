@@ -57,7 +57,7 @@ public class HouseServiceImpl implements HouseService {
     @Transactional
     public ResultMsg add(HouseForm houseForm) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByName(name);
+        User user = userRepository.findByUsernameAndType(name,UserTypeEnum.base);
         if (user==null){
             return ResultMsg.fail("找不到当前登录用户信息");
         }
@@ -117,7 +117,7 @@ public class HouseServiceImpl implements HouseService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder cb) {
                 Predicate predicate = null;
                 String name = SecurityContextHolder.getContext().getAuthentication().getName();
-                User user = repository.findByName(name);
+                User user = repository.findByUsernameAndType(name,UserTypeEnum.base);
                 if (user == null) {
                     return null;
                 }
