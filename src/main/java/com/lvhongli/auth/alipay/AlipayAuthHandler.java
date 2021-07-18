@@ -8,6 +8,7 @@ import com.alipay.api.request.AlipayUserInfoShareRequest;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.alipay.api.response.AlipayUserInfoShareResponse;
 import com.lvhongli.dao.UserRepository;
+import com.lvhongli.model.Role;
 import com.lvhongli.model.User;
 import com.lvhongli.model.UserTypeEnum;
 import com.lvhongli.security.WebSecurityAuthenticationProvider;
@@ -20,6 +21,8 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -41,11 +44,13 @@ public class AlipayAuthHandler implements AuthHandler{
     @Autowired
     private WebSecurityAuthenticationProvider authenticationProvider;
 
+    private String redirect="/admin";
+
     @Override
     public AuthResult getToken(String code,String refreshToken) {
         AlipayClient alipayClient = new DefaultAlipayClient(properties.getServerUrl(), properties.getAppId(), properties.getPrivateKey(), properties.getFormat(), properties.getCharset(), properties.getPublicKey(), properties.getSignType());
         AlipaySystemOauthTokenRequest request = new AlipaySystemOauthTokenRequest();
-        if (StringUtils.isEmpty(code)){
+        if (!StringUtils.isEmpty(code)){
             request.setCode(code);
             request.setGrantType("authorization_code");
         }else {
@@ -54,7 +59,7 @@ public class AlipayAuthHandler implements AuthHandler{
         }
         try {
             AlipaySystemOauthTokenResponse response = alipayClient.execute(request);
-            if ("10000".equals(response.getCode())){
+            if (response.isSuccess()){
                 return new AlipayResult(true,response);
             }
             return new AlipayResult(false,response.getMsg());
@@ -86,14 +91,14 @@ public class AlipayAuthHandler implements AuthHandler{
         //1.通过code换token
         result = getToken(code, null);
         if (!result.isSuccess()){
-            response.sendRedirect("重定向地址");
+            response.sendRedirect("/client/client/user/login?error=登录失败");
             return;
         }
         //2.通过token获取用户信息
         AlipaySystemOauthTokenResponse tokenResponse = (AlipaySystemOauthTokenResponse) result.getData();
         result= getUserInfo(tokenResponse.getAccessToken());
         if (!result.isSuccess()){
-            response.sendRedirect("重定向地址");
+            response.sendRedirect("/client/client/user/login?error=登录失败");
             return;
         }
         AlipayUserInfoShareResponse shareResponse = (AlipayUserInfoShareResponse) result.getData();
@@ -101,15 +106,26 @@ public class AlipayAuthHandler implements AuthHandler{
         User loginUser = userRepository.findByUsernameAndType(shareResponse.getUserId(), UserTypeEnum.alipay_wallet);
         if (loginUser==null){
             loginUser=new User();
+            ArrayList<Role> list = new ArrayList<>();
+            Role role = new Role();
+            role.setUser(loginUser);
+            role.setName("USER");
+            list.add(role);
+            loginUser.setRoles(list);
+
         }
         loginUser.setAvatar(shareResponse.getAvatar());
         loginUser.setNickName(shareResponse.getNickName());
         loginUser.setUsername(shareResponse.getUserId());
         loginUser.setType(UserTypeEnum.alipay_wallet);
         loginUser.setEnabled(true);
+        loginUser.setCreateTime(new Date());
+        loginUser.setLastUpdateTime(new Date());
+        loginUser.setLastLoginTime(new Date());
         userRepository.save(loginUser);
         //4.生成getAliPayAuthenticate
         SecurityContextHolder.getContext().setAuthentication(authenticationProvider.getAliPayAuthenticate(loginUser));
+        response.sendRedirect("/index");
     }
 
     @Override

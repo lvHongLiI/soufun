@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import com.lvhongli.converter.UserTypeConvert;
 import io.swagger.annotations.ApiModelProperty;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,5 +72,11 @@ public class User implements Serializable {
     @ApiModelProperty(value = "头像", example = "http://1233")
     @Column(name = "avatar")
     private String avatar;
+
+    @ApiModelProperty(value = "角色", example = "")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @Ignore
+    @Transient
+    private List<Role> roles;
 
 }

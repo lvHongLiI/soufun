@@ -27,7 +27,6 @@ public class IndexController {
 
     @PostConstruct
     public void init(){
-        System.out.println("执行了？");
         servletContext.setAttribute("list",supportAddressService.getPinYinCityAll().getData());
     }
 
@@ -69,7 +68,8 @@ public class IndexController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "客户端管理首页", response = String.class),
     })
-    public String center(Model model){
+    public String center(){
         return "index";
     }
+
 }

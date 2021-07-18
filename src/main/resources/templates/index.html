@@ -100,6 +100,13 @@
 <div th:include="common :: footer"></div>
 <script th:inline="javascript" type="text/javascript">
     $(function () {
+        var param=getRequest()
+        if(param!=null&&param['auth_code']!=null){
+            console.log("进来了"+param)
+            var code=param['auth_code'];
+            var source=param['source'];
+            location.href='/client/user/authLogin?code='+code+'&type='+source
+        }
         $('.xunwu-header .index-page').addClass('on');
 
         function msgTip(content) {
@@ -125,6 +132,23 @@
             // TODO
         }
     });
+
+    function getRequest(urlStr) {//两种方式，输入链接获取或当前链接获取
+             if (typeof urlStr == "undefined") {
+                     var url = decodeURI(location.search); //获取url中"?"符后的字符串
+                 } else {
+                     var url = "?" + urlStr.split("?")[1];
+                 }
+             var theRequest = new Object();
+             if (url.indexOf("?") != -1) {
+                     var str = url.substr(1);//去掉问号，问号为第一个字符
+                     strs = str.split("&");
+                     for (var i = 0; i < strs.length; i++) {
+                             theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                         }
+                 }
+        return theRequest;
+         }
 </script>
 </body>
 </html>

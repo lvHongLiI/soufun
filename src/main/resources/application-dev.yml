@@ -104,3 +104,5 @@ upload:
   fileTypes:
     jpg: 图片
     jfif: 图片
+
+qrCodeType: '{"alipay_wallet":"alipayQrCode.png"}'

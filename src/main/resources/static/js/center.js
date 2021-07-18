@@ -74,10 +74,10 @@ $(function () {
                 url: '/api/user/house/subscribe?houseId=' + selected,
                 type: 'DELETE',
                 success: function (data) {
-                    if (data.code === 200) {
+                    if (data.status == 200) {
                         $('.user-right .subscribe input[name="houseId"]:checked').parent().parent().remove();
                         layer.msg('已取消预约!', {icon: 6, time: 2000});
-                    } else if (data.code === 403) {
+                    } else if (data.status == 403) {
                         layer.msg('请先登录,再执行操作', {icon: 5, time: 2000});
                     } else {
                         layer.msg(data.message, {icon: 5, time: 2000});
@@ -104,11 +104,12 @@ $(function () {
         }
 
         $.ajax({
-            url: '/api/user/info',
-            data: {
-                profile: 'name',
-                value: name
-            },
+            url: '/client/user/updateInfo',
+            dataType:'json',
+            contentType : 'application/json;charset=utf-8',
+            data: JSON.stringify({
+                nickName: name,
+            }),
             type: 'POST',
             success: submitSuccess,
             error: submitError
@@ -131,11 +132,12 @@ $(function () {
 
 
         $.ajax({
-            url: '/api/user/info',
-            data: {
-                profile: 'email',
-                value: email
-            },
+            url: '/client/user/updateInfo',
+            dataType:'json',
+            contentType : 'application/json;charset=utf-8',
+            data:JSON.stringify( {
+                email: email,
+            }),
             type: 'POST',
             success: submitSuccess,
             error: submitError
@@ -150,11 +152,12 @@ $(function () {
         }
 
         $.ajax({
-            url: '/api/user/info',
-            data: {
-                profile: 'password',
-                value: password
-            },
+            url: '/client/user/updateInfo',
+            dataType:'json',
+            contentType : 'application/json;charset=utf-8',
+            data: JSON.stringify({
+                password: 'password',
+            }),
             type: 'POST',
             success: submitSuccess,
             error: submitError

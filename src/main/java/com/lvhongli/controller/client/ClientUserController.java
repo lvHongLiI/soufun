@@ -8,11 +8,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -30,12 +29,12 @@ public class ClientUserController {
     @Autowired
     private AuthContext authContext;
 
-    @GetMapping("/updateInfo")
+    @PostMapping("/updateInfo")
     @ApiOperation(value = "修改个人信息", notes = "")
     @ApiResponses({
             @ApiResponse(code = 200, message = "修改个人信息", response = String.class),
     })
-    public ResultMsg updateInfo(Map map){
+    public ResultMsg updateInfo(@RequestBody Map map){
         return userService.updateInfo(map);
     }
 
@@ -46,5 +45,14 @@ public class ClientUserController {
     })
     public void  authLogin(String code, String type, HttpServletResponse response) throws IOException {
         authContext.login(code,type,response);
+    }
+
+    @GetMapping("/getAuthLoginQRCode")
+    @ApiOperation(value = "第三方登录二维码", notes = "")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "第三方登录"),
+    })
+    public ResponseEntity<Resource> getAuthLoginQRCode(String type) throws IOException {
+       return authContext.getAuthLoginQRCode(type);
     }
 }

@@ -2,12 +2,8 @@ package com.lvhongli.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by 瓦力.
@@ -15,12 +11,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 @Data
-public class Role {
+public class Role  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "user_id")
-    private Integer userId;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @JoinColumn(name = "name")
     private String name;
 
 

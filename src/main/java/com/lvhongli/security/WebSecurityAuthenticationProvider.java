@@ -43,8 +43,8 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
         if (!passwordEncoder.matches(password,user.getPassword())){
             throw new AuthenticationCredentialsNotFoundException("密码不正确");
         }
-        List<Role> list = roleRepository.findAllByUserId(user.getId());
-        List<SimpleGrantedAuthority> authorities = list.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
+        List<Role> roles = roleRepository.findAllByUserId(user.getId());
+        List<SimpleGrantedAuthority> authorities =roles.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
         return new UsernamePasswordAuthenticationToken(user,password,authorities);
     }
 
@@ -55,8 +55,8 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
      * @return
      */
     public Authentication getAliPayAuthenticate(User user){
-        List<Role> list = roleRepository.findAllByUserId(user.getId());
-        List<SimpleGrantedAuthority> authorities = list.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
+        List<Role> roles = roleRepository.findAllByUserId(user.getId());
+        List<SimpleGrantedAuthority> authorities =roles.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
         return new UsernamePasswordAuthenticationToken(user,user.getPassword(),authorities);
     }
 
