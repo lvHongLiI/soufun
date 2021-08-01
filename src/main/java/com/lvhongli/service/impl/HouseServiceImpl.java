@@ -164,7 +164,7 @@ public class HouseServiceImpl implements HouseService {
             Message message = new Message();
             message.setCreateTime(new Date());
             message.setStatus(false);
-            message.setType("DELETE");
+            message.setType(MessageTypeEnum.deleteHouse);
             message.setUpdateTime(new Date());
             message.setData(id.toString());
             messageRepository.save(message);
@@ -173,7 +173,7 @@ public class HouseServiceImpl implements HouseService {
             Message message = new Message();
             message.setCreateTime(new Date());
             message.setStatus(false);
-            message.setType("CREATE");
+            message.setType(MessageTypeEnum.createHouse);
             message.setUpdateTime(new Date());
             HouseData data = new HouseData();
             data.setHouse(optional.get());

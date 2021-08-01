@@ -34,19 +34,19 @@ $(function () {
 
 
     $('.user-right .wait-record button').on('click', function () {
-        var selected = $('.user-right .wait-record input[name="houseId"]:checked').val();
+        var selected = $('.user-right .wait-record input[name="id"]:checked').val();
         if (typeof (selected) === 'undefined') {
             layer.msg('请选择要预约的房源', {icon: 5, time: 2000});
             return false;
         }
 
         $.ajax({
-            url: '/api/user/house/subscribe/date',
+            url: '/client/subscribe/add/subscribeDate',
             type: 'POST',
             data: $('.user-right .wait-record form').serialize(),
             success: function (data) {
-                if (data.code === 200) {
-                    $('.user-right .wait-record input[name="houseId"]:checked').parent().remove();
+                if (data.status === 200) {
+                    $('.user-right .wait-record input[name="id"]:checked').parent().remove();
                     layer.msg('预约成功', {icon: 6, time: 2000});
 
                 } else {
@@ -61,7 +61,7 @@ $(function () {
     });
 
     $('.user-right .subscribe button').on('click', function () {
-        var selected = $('.user-right .subscribe input[name="houseId"]:checked').val();
+        var selected = $('.user-right .subscribe input[name="id"]:checked').val();
         if (typeof (selected) === 'undefined') {
             layer.msg('请选择要取消预约的房源', {icon: 5, time: 2000});
             return false;
@@ -71,11 +71,11 @@ $(function () {
             btn: ['确认', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: '/api/user/house/subscribe?houseId=' + selected,
+                url: '/client/subscribe/' + selected,
                 type: 'DELETE',
                 success: function (data) {
                     if (data.status == 200) {
-                        $('.user-right .subscribe input[name="houseId"]:checked').parent().parent().remove();
+                        $('.user-right .subscribe input[name="id"]:checked').parent().remove();
                         layer.msg('已取消预约!', {icon: 6, time: 2000});
                     } else if (data.status == 403) {
                         layer.msg('请先登录,再执行操作', {icon: 5, time: 2000});
@@ -219,7 +219,7 @@ function loadWaitRecord() {
                     function (res) {
                         layui.each(res.data, function (index, tuple) {
                             var house = tuple.house;
-                            var content = '<li><input type="radio" name="houseId" value="' + house.id + '">预约此房源'
+                            var content = '<li><input type="radio" name="id" value="' + tuple.id + '">预约此房源'
                                 + '<div class="cover fl">'
                                 + '<img src="/upload/' + house.cover + '" width="100px" height="80px"></div> ' +
                                 '<div class="info fl"><a><h1>' + house.title + '</h1></a><div class="des1">' +
@@ -254,7 +254,7 @@ function loadSubscribeList() {
                 var lis = [],
                     start = (page - 1) * 3;
 
-                $.get('/client/subscribe/query/list/1?' + 'start=' + start + '&size=3',
+                $.get('/client/subscribe/query/list/2?' + 'start=' + start + '&size=3',
                     function (res) {
                         layui.each(res.data, function (index, tuple) {
                             var subscribe = tuple,
@@ -295,7 +295,7 @@ function loadFinishList() {
                 var lis = [],
                     start = (page - 1) * 3;
 
-                $.get('/client/subscribe/query/list/1?' + 'start=' + start + '&size=3',
+                $.get('/client/subscribe/query/list/3?' + 'start=' + start + '&size=3',
                     function (res) {
                         layui.each(res.data, function (index, tuple) {
                             var subscribe = tuple,
@@ -303,7 +303,7 @@ function loadFinishList() {
                             var content = '<li><span' +
                                 ' class="order-time">看房时间：' + (new Date(subscribe.orderTime)).Format("yyyy-MM-dd")
                                 + '</span><div class="cover fl">'
-                                + '<img src="/upload' + house.cover + '" width="100px" height="80px"></div> ' +
+                                + '<img src="/upload/' + house.cover + '" width="100px" height="80px"></div> ' +
                                 '<div class="info fl"><a><h1>' + house.title + '</h1></a><div class="des1">' +
                                 '<i></i><span><a href="#" target="_blank">' + house.district + '</a></span>' +
                                 '<span class="line">|</span><span>' + house.room + '室' + house.parlour + '厅</span>'

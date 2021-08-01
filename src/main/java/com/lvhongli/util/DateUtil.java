@@ -83,7 +83,6 @@ public class DateUtil {
         }
         return sdf.format(newDate);
     }
-	
 	/**
 	 * @description: 将日期转换成指定格式日期
 	 * @param date 日期

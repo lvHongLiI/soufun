@@ -37,6 +37,7 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
         String name = authentication.getName();
         String password = (String) authentication.getCredentials();
         User user = userRepository.findByUsernameAndType(name, UserTypeEnum.base);
+
         if (user==null){
             throw new AuthenticationCredentialsNotFoundException("用户名不存在");
         }
@@ -44,6 +45,7 @@ public class WebSecurityAuthenticationProvider implements AuthenticationProvider
             throw new AuthenticationCredentialsNotFoundException("密码不正确");
         }
         List<Role> roles = roleRepository.findAllByUserId(user.getId());
+        System.out.println(roles);
         List<SimpleGrantedAuthority> authorities =roles.stream().map(v -> new SimpleGrantedAuthority("ROLE_" + v.getName())).collect(Collectors.toList());
         return new UsernamePasswordAuthenticationToken(user,password,authorities);
     }

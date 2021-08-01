@@ -1,5 +1,7 @@
 package com.lvhongli.model;
 
+
+import com.lvhongli.converter.MessageTypeConvert;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,7 +18,8 @@ public class Message {
 
     @Column(name = "type")
     @ApiModelProperty(value = "类型", example = "create")
-    private String type;
+    @Convert(converter = MessageTypeConvert.class)
+    private MessageTypeEnum type;
 
     @Column(name = "data")
     @ApiModelProperty(value = "数据", example = "{}")

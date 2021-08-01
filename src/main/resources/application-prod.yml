@@ -1,5 +1,5 @@
-#server:
-#  port: 8131
+server:
+  port: 8130
 spring:
   application:
     name: soufun
@@ -8,9 +8,8 @@ spring:
     #    druid:
     #      writeDB:
     name: writeDB
-    driverClassName: com.mysql.jdbc.Driver
-    #url: jdbc:mysql://211.149.184.96:3306/zhyy_basic?useUnicode=true&characterEncoding=utf8
-    url: jdbc:mysql://127.0.0.1:3306/soufun?useUnicode=true&characterEncoding=utf8
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://soufun-mysql:3306/soufun?useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     # 下面为连接池的补充设置，应用到上面所有数据源中
@@ -37,15 +36,19 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     # 合并多个DruidDataSource的监控数据
     useGlobalDataSourceStat: true
-
   resources: #静态目录配置
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  #jta相关参数配置
+  #  jta:
+  #    enabled: false
+  #    log-dir: classpath:tx-logs
+  #    transaction-manager-id: txManager
 
   kafka:
-    bootstrap-servers: 172.101.203.33:9092
+    bootstrap-servers: 192.168.247.130:9092
     producer:
       # 发生错误后，消息重发的次数。
-      retries: 0
+      retries: 3
       #当有多个消息需要被发送到同一个分区时，生产者会把它们放在同一个批次里。该参数指定了一个批次可以使用的内存大小，按照字节数计算。
       batch-size: 16384
       # 设置生产者内存缓冲区的大小。
@@ -56,8 +59,8 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       # acks=0 ： 生产者在成功写入消息之前不会等待任何来自服务器的响应。
       # acks=1 ： 只要集群的首领节点收到消息，生产者就会收到一个来自服务器成功响应。
-      # acks=all ：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。
-      acks: 1
+      acks: all #：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。
+      #acks: 1
     consumer:
       # 自动提交的时间间隔 在spring boot 2.X 版本中这里采用的是值的类型为Duration 需要符合特定的格式，如1S,1M,2H,5D
       auto-commit-interval: 1S
@@ -77,13 +80,13 @@ spring:
       #listner负责ack，每调用一次，就立即commit
       ack-mode: manual_immediate
       missing-topics-fatal: false
+
 elasticsearch:
-  ip: 127.0.0.1
+  ip: soufun-elasticsearch
   port: 9300
   cluster:
     name: elasticsearch
   pool: 10
-
 
 upload:
   location:
@@ -100,3 +103,9 @@ upload:
   fileTypes:
     jpg: 图片
     jfif: 图片
+
+qrCodeType: '{"alipay_wallet":"alipayQrCode.png"}'
+
+redis:
+  hostname: soufun-redis
+  port: 6379

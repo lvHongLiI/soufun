@@ -23,26 +23,12 @@ public class MessageJob {
     @Autowired
     private MessageRepository messageRepository;
 
-    public static final String create_topic="create_topic";
-
-    public static final  String delete_topic="delete_topic";
 
     @Scheduled(cron = "0/10 * * * * ?")
     public void sendMessage(){
         List<Message> list = messageRepository.findAllByStatusOrderByCreateTime(false);
         list.forEach(v->{
-            String topic=null;
-            switch (v.getType()){
-                case "create":
-                case "CREATE":
-                    topic=create_topic;
-                    break;
-                case "delete":
-                case "DELETE":
-                    topic=delete_topic;
-                    break;
-
-            }
+            String topic=v.getType().name();
             ListenableFuture future = template.send(topic, v.getId().toString(), v.getData());
             future.addCallback(new ListenableFutureCallback<SendResult<String,String>>() {
                 @Override

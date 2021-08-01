@@ -11,4 +11,6 @@ public interface ClientSubscribeService {
     ResultMsg query(Integer status, Integer id,Pageable pageable);
 
     ResultMsg deleteSubscribe(Integer houseId);
+
+    ResultMsg subscribeDate(Integer id, String phone, String orderTime);
 }

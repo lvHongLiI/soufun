@@ -2,13 +2,17 @@ package com.lvhongli.service.impl;
 import com.lvhongli.configure.ResultMsg;
 import com.lvhongli.model.User;
 import com.lvhongli.dao.UserRepository;
+import com.lvhongli.security.WebSecurityAuthenticationProvider;
 import com.lvhongli.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +24,9 @@ public class SystemUserServiceImpl  {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WebSecurityAuthenticationProvider authenticationProvider;
 
     private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 
@@ -50,5 +57,29 @@ public class SystemUserServiceImpl  {
         }
         userRepository.save(user);
       return  ResultMsg.success();
+    }
+
+    public ResultMsg sendCode(String phone) {
+        User user = userRepository.findByPhoneNumber(phone);
+        if (user==null){
+            return ResultMsg.fail("该用户不存在，请注册后再登录");
+        }
+        //发送短信
+        String code=null;
+        return ResultMsg.success(code);
+    }
+
+
+
+    public void login(String phone, String code,HttpServletResponse response) throws IOException {
+        User user = userRepository.findByPhoneNumber(phone);
+        if (user==null){
+            response.sendRedirect("/client/client/user/login?error=登录失败");
+        }
+        //校验code
+
+        //生成getAliPayAuthenticate
+        SecurityContextHolder.getContext().setAuthentication(authenticationProvider.getAliPayAuthenticate(user));
+        response.sendRedirect("/index");
     }
 }

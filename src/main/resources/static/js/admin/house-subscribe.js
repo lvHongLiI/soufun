@@ -53,9 +53,7 @@ var table = $('#data-table').DataTable({
             data: "house.price"
         }, {
             data: "house.floor"
-        }, {
-            data: "house.watchTimes"
-        }, {
+        },  {
             data: "orderTime"
         }, {
             data: null
@@ -71,12 +69,6 @@ var table = $('#data-table').DataTable({
             render: function (data, type, row, meta) {
                 return '<td class="text-l"><u style="cursor:pointer" class="text-primary"' +
                     'onClick="house_edit(\'查看\', \'/house/show?id=' + row.id + '\')" title="查看">' + data + '</u></td>';
-            }
-        }, {
-            targets: 2,
-            render: function (data, type, row, meta) {
-                return '<td><img onClick="house_edit(\'查看\', \'/house/show?id=' + row.id + '\')" title="查看"' +
-                    ' class="picture-thumb" src="/upload/' + row.house.cover +'" width="100px" height="100px"></td>';
             }
         }, {
             targets: 7,
@@ -136,12 +128,9 @@ function finishSubscribe(obj, id) {
     layer.confirm('确认完成客户带看了吗？', function () {
         $.ajax({
             type: 'POST',
-            url: '/admin/finish/subscribe',
-            data: {
-                house_id: id
-            },
+            url: '/admin/subscribe/completeHouse/'+id,
             success: function (data) {
-                if (data.code === 200) {
+                if (data.status === 200) {
                     $(obj).parents("tr").remove();
                     layer.msg('已完成!', {icon: 1, time: 1000});
                     reloadTable();

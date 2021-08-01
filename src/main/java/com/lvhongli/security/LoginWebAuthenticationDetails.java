@@ -6,7 +6,7 @@
 //
 //public class LoginWebAuthenticationDetails extends WebAuthenticationDetails {
 //
-//    private
+//    private String
 //
 //    public LoginWebAuthenticationDetails(HttpServletRequest request) {
 //        super(request);

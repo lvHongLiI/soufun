@@ -10,9 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -31,5 +29,15 @@ public class SubscribeController {
     })
     public Map findAll(SubscribeParam param){
       return   subscribeService.findAll(param);
+    }
+
+
+    @PostMapping("/completeHouse/{id}")
+    @ApiOperation(value = "完成看房", notes = "")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "完成看房", response = ResultMsg.class),
+    })
+    public ResultMsg completeHouse(@PathVariable Integer id){
+        return   subscribeService.completeHouse(id);
     }
 }

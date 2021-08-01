@@ -8,6 +8,7 @@ import com.lvhongli.model.House;
 import com.lvhongli.model.HouseSubscribe;
 import com.lvhongli.model.User;
 import com.lvhongli.service.ClientSubscribeService;
+import com.lvhongli.util.DateUtil;
 import com.lvhongli.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -86,6 +87,25 @@ public class ClientSubscribeServiceImpl implements ClientSubscribeService {
     @Override
     public ResultMsg deleteSubscribe(Integer houseId) {
         houseSubscribeRepertory.deleteSubscribe(UserUtil.getUser().getId(),houseId);
+        return ResultMsg.success();
+    }
+
+
+    @Override
+    public ResultMsg subscribeDate(Integer id, String phone, String orderTime) {
+        Optional<HouseSubscribe> optional = houseSubscribeRepertory.findById(id);
+        if (!optional.isPresent()){
+            return ResultMsg.fail("找不到待看记录");
+        }
+        HouseSubscribe subscribe = optional.get();
+        if (subscribe.getStatus()!=1){
+            return ResultMsg.fail("当前房源已预约");
+        }
+        subscribe.setTelephone(phone);
+        subscribe.setOrderTime(DateUtil.parseDate(orderTime));
+        subscribe.setStatus(2);
+        subscribe.setLastUpdateTime(new Date());
+        houseSubscribeRepertory.save(subscribe);
         return ResultMsg.success();
     }
 }

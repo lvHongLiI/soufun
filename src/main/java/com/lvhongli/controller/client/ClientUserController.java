@@ -55,4 +55,23 @@ public class ClientUserController {
     public ResponseEntity<Resource> getAuthLoginQRCode(String type) throws IOException {
        return authContext.getAuthLoginQRCode(type);
     }
+
+    @GetMapping("/sendCode")
+    @ApiOperation(value = "发送短信", notes = "")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "发送短信"),
+    })
+    public ResultMsg sendCode(String phone){
+        return userService.sendCode(phone);
+    }
+
+    @PostMapping("/login")
+    @ApiOperation(value = "发送短信", notes = "")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "发送短信"),
+    })
+    public void login(String phone,String smsCode,HttpServletResponse response) throws IOException {
+         userService.login(phone,smsCode,response);
+    }
+
 }

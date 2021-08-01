@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 
 @Component
 public class LoginAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
     @Autowired
     private  LoginUrlEntryPoint entryPoint;
 

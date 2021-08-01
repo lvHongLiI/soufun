@@ -1,0 +1,110 @@
+version: '3'
+services:
+  soufun_context:
+    depends_on:
+      - soufun_redis
+      - soufun_mysql
+      - soufun_es
+      - soufun_kafka
+    container_name: soufun-context
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: soufun:latest
+    restart: always
+    networks:
+      lvhongli:
+        aliases:
+          - soufun-context
+    ports:
+      - 8131:8130
+
+
+  soufun_redis:
+    container_name: sofun-redis
+    image: redis:latest
+    restart: always
+    networks:
+      lvhongli:
+        aliases:
+          - soufun-redis
+    ports:
+      - 6380:6379
+
+  soufun_mysql:
+    container_name: sofun-mysql
+    image: mysql:5.7
+    restart: always
+    privileged: true
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M
+      --sql-mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=lvhongli
+      - MYSQL_PASSWORD=root
+    volumes:
+      - /opt/mysql/data:/var/lib/mysql
+      - /opt/mysql/conf/my.cnf:/etc/my.cnf
+    networks:
+      lvhongli:
+        aliases:
+          - soufun-mysql
+    ports:
+      - 3307:3306
+
+
+  soufun_es:
+    container_name: soufun-elasticsearch
+    image: elasticsearch:5.2.0
+    restart: always
+    networks:
+      lvhongli:
+        aliases:
+          - soufun-elasticsearch
+    environment:
+      - ES_JAVA_OPTS=-Xms128m -Xmx128m
+      - DISCOVERY_TYPE=single-node
+      - TRABSPORT_HOST=0.0.0.0
+    volumes:
+      - /home/es/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/es/plugins:/usr/share/elasticsearch/plugins
+    ports:
+      - 9301:9300
+      - 9201:9200
+
+  soufun_zookeeper:
+    image: zookeeper:3.5.5
+    restart: always
+    container_name: soufun-zookeeper
+    ports:
+      - "2180:2181"
+    expose:
+      - "2182"
+    environment:
+      - ZOO_MY_ID=1
+  soufun_kafka:
+    image: wurstmeister/kafka:2.12-2.2.1
+    restart: always
+    container_name: soufun-kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.247.130:9092
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ZOOKEEPER_CONNECT=soufun-zookeeper:2181
+      - KAFKA_MESSAGE_MAX_BYTES=2000000
+      - KAFKA_JVM_PERFORMANCE_OPTS=-Xmx256m -Xms256m
+      - KAFKA_ZOOKEEPER_CONNECT_TIMEOUT_MS=60000
+    ports:
+      - "9092:9092"
+    depends_on:
+      - soufun_zookeeper
+
+
+networks:
+  lvhongli:
+    driver: bridge

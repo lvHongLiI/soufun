@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-offset-3 col-md-6">
-                    <form class="form-horizontal" action="#" th:action="@{/login}" method="post">
+                    <form class="form-horizontal" action="/client/user/login"  method="post">
                         <div class="heading">
                             <a><span class="select" data-bind="phone">手机登录&nbsp;&nbsp;&nbsp;</span></a>
                         </div>
@@ -165,10 +165,10 @@
             $(this).attr('readonly', 'readonly');
 
             $.ajax({
-                url: '/sms/code?telephone=' + telephone,
+                url: '/client/user/sendCode?phone=' + telephone,
                 type: 'GET',
                 success: function (data) {
-                    if (data.code === 200) {
+                    if (data.status === 200) {
                         var smsBtn = $('#smsCodeBtn');
                         smsBtn.attr('disabled', 'disabled');
                         smsBtn.css("background-color", "#b4b2b3");

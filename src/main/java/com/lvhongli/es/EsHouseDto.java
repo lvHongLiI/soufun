@@ -3,6 +3,7 @@ package com.lvhongli.es;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Data
 @Document(indexName = "soufun",type = "house",replicas = 0,createIndex = false)
+@ToString
 public class EsHouseDto {
 
     @ApiModelProperty(value = "房源id", example = "123")
@@ -98,9 +100,9 @@ public class EsHouseDto {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date lastUpdateTime;
 
-    @ApiModelProperty(value = "浏览该房源人数", example = "11")
-    @Field(type = FieldType.Integer)
-    private Integer watchTimes;
+//    @ApiModelProperty(value = "浏览该房源人数", example = "11")
+//    @Field(type = FieldType.Integer)
+//    private Integer watchTimes;
 
     @ApiModelProperty(value = "详情页路径", example = "localhost://")
     @Field(type = FieldType.keyword)

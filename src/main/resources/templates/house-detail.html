@@ -86,7 +86,7 @@
             <div class="imgContainer layui-carousel" id="overview-photos">
                 <div carousel-item>
                     <div th:each="picture : ${house.pictures}">
-                        <img th:src="${picture}"/>
+                        <img th:src="'/upload/'+${picture}"/>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                 <div class="brokerInfoText">
                     <div class="brokerName">
                         <a href="#" class="name LOGCLICK" data-log_id="20001"
-                           data-bl="agent" data-el="1000000020276906" th:text="${user.name}">经纪人</a>
+                           data-bl="agent" data-el="1000000020276906" th:text="${user.nickName}">经纪人</a>
                         <span class="tag ">高级经纪人</span>
                         <a class="LOGCLICK" data-log_id="20001" data-bl="agentim"
                            data-el="1000000020276906" style="display: none;" title="在线咨询"
@@ -158,7 +158,7 @@
                         </a>
                     </div>
                     <div class="evaluate">
-                        <span class="time">本房带看：<span th:text="${house.watchTimes}">0</span>次</span>
+                        <span class="time">本房带看：<span th:text="${house.watchPerson}">0</span>次</span>
                     </div>
                     <div class="phone" th:text="${user.phoneNumber}">
                     </div>

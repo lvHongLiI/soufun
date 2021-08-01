@@ -239,7 +239,7 @@
                         <li>
                             <div class="pic-panel">
                                 <a target="_blank" th:href="'/client/house/selectById/' + ${house.id}">
-                                    <img th:src="${house.cover}" th:alt="${house.title}"/>
+                                    <img th:src="'/upload/'+${house.cover}" th:alt="${house.title}" width="100px" height="100px"/>
                                 </a>
                             </div>
                             <div class="info-panel">

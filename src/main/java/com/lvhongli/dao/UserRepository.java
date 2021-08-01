@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsernameAndType(@Param("username") String username,@Param("type") UserTypeEnum type);
 
 
+    User  findByPhoneNumber(String phoneNumber);
 }

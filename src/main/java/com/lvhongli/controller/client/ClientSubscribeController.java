@@ -23,7 +23,7 @@ public class ClientSubscribeController {
     private ClientSubscribeService service;
 
     @PostMapping("/{houseId}")
-    @ApiOperation(value = "添加预约", notes = "")
+    @ApiOperation(value = "添加待看房源", notes = "")
     @ApiResponses({
             @ApiResponse(code = 200, message = "添加预约", response = String.class),
     })
@@ -48,5 +48,17 @@ public class ClientSubscribeController {
     public ResultMsg query(@PathVariable("status") Integer status, @PageableDefault(page = 0,size = 3) Pageable pageable){
         return service.query(UserUtil.getUser().getId(),status,pageable);
     }
+
+    @PostMapping("/add/subscribeDate")
+    @ApiOperation(value = "添加预约时间", notes = "")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "添加预约时间", response = ResultMsg.class),
+    })
+    public ResultMsg subscribeDate(Integer id,String phone,String orderTime){
+        return service.subscribeDate(id,phone,orderTime);
+    }
+
+
+
 
 }

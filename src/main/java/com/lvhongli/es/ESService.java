@@ -128,4 +128,8 @@ public class ESService {
         InternalValueCount count= (InternalValueCount) aggregated.getAggregation("count");
        return count.getValue();
     }
+
+    public void update(EsHouseDto esHouseDto) {
+        esRepository.save(esHouseDto);
+    }
 }

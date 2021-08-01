@@ -8,4 +8,6 @@ import java.util.Map;
 public interface SubscribeService {
 
     Map findAll(SubscribeParam param);
+
+    ResultMsg completeHouse(Integer id);
 }
